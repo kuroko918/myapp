@@ -16,6 +16,8 @@ export default {
   css: [
   ],
   plugins: [
+    '~/plugins/firebase',
+    '~/plugins/persistedState'
   ],
   components: true,
   buildModules: [
@@ -23,7 +25,8 @@ export default {
     '@nuxtjs/vuetify'
   ],
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv'
   ],
   axios: {},
   vuetify: {
@@ -44,5 +47,8 @@ export default {
     }
   },
   build: {
+  },
+  router: {
+    middleware: 'authenticate'
   }
 }
