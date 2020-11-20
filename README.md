@@ -1,3 +1,20 @@
+# 使用技術
+### サーバーサイド
+- go
+- gin（webフレームワーク）
+- gorm（ORマッパー）
+
+### フロントエンド
+- Nuxt.js
+- TypeScript（Vuexの型付け：vuex-smart-module）
+- Jest
+
+### ネイティブアプリ
+- Flutter
+
+# アーキテクチャ
+`Clean Architecture`を採用
+
 # 環境構築
 
 ### サーバーサイド
