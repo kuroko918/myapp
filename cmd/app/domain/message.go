@@ -3,7 +3,7 @@ package domain
 import "time"
 
 type Message struct {
-	ID        string
+	Id        int32
 	Content   string
 	UserId    string
 	CreatedAt time.Time
