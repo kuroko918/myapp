@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"strconv"
+
 	"github.com/kuroko918/myapp/cmd/app/domain"
 	"github.com/kuroko918/myapp/cmd/app/interfaces/database"
 	"github.com/kuroko918/myapp/cmd/app/usecase"
@@ -32,7 +34,7 @@ func (controller *MessagesController) Create(c Context) {
 }
 
 func (controller *MessagesController) Delete(c Context) {
-	id := c.Param("id")
+	id, _ := strconv.Atoi(c.Param("id"))
 	message := domain.Message{
 		ID: id,
 	}
