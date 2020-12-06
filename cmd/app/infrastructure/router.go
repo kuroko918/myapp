@@ -7,12 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/kuroko918/myapp/cmd/app/interfaces/controllers"
+	"github.com/kuroko918/myapp/cmd/app/middleware"
 )
 
 var Router *gin.Engine
 
 func init() {
-	router := gin.Default()
+	router := gin.New()
+
+	// Global Middleware
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
 
 	// CORS
 	router.Use(cors.New(cors.Config{
@@ -21,6 +26,9 @@ func init() {
 		AllowOrigins: []string{"http://localhost:3000"},
 		MaxAge:       24 * time.Hour,
 	}))
+
+	// Firebase Auth
+	router.Use(middleware.Auth())
 
 	messagesController := controllers.NewMessagesController(NewSqlHandler())
 	router.GET("/messages", func(c *gin.Context) { messagesController.Index(c) })
