@@ -12,20 +12,22 @@ import (
 
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		opt := option.WithCredentialsFile("path/to/serviceAccountKey.json")
+		opt := option.WithCredentialsFile("./serviceAccountKey.json")
 		app, err := firebase.NewApp(context.Background(), nil, opt)
 		if err != nil {
 			c.JSON(500, controllers.NewError(err))
+			c.Abort()
 			return
 		}
 
 		client, err := app.Auth(context.Background())
 		if err != nil {
 			c.JSON(500, controllers.NewError(err))
+			c.Abort()
 			return
 		}
 
-		authToken := c.Request.Header.Get("AuthToken")
+		authToken := c.Request.Header.Get("Authorization")
 
 		token, err := client.VerifyIDToken(context.Background(), authToken)
 		if err != nil {

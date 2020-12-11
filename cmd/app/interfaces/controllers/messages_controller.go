@@ -23,7 +23,10 @@ func NewMessagesController(sqlHandler database.SqlHandler) *MessagesController {
 }
 
 func (controller *MessagesController) Create(c Context) {
-	u := domain.Message{}
+	userId, _ := c.Get("AuthenticatedUserId")
+	u := domain.Message{
+		UserId: userId.(string),
+	}
 	c.Bind(&u)
 	message, err := controller.Interactor.Add(u)
 	if err != nil {
