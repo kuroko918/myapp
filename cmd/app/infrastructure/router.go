@@ -27,7 +27,7 @@ func init() {
 		MaxAge:       24 * time.Hour,
 	}))
 
-	// Firebase Auth
+	// Authentification
 	router.Use(middleware.Auth())
 
 	messagesController := controllers.NewMessagesController(NewSqlHandler())
