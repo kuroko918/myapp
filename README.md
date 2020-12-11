@@ -13,7 +13,8 @@
 - Flutter
 
 # アーキテクチャ
-`Clean Architecture`を採用
+- サーバーサイド
+  `Clean Architecture`を採用
 
 # 環境構築
 
