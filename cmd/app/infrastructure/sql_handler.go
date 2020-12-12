@@ -25,7 +25,7 @@ func (handler *SqlHandler) Create(value interface{}) *gorm.DB {
 	return handler.Conn.Create(value)
 }
 
-func (handler *SqlHandler) Delete(value interface{}) *gorm.DB {
+func (handler *SqlHandler) Delete(value interface{}, where ...interface{}) *gorm.DB {
 	return handler.Conn.Delete(value)
 }
 
