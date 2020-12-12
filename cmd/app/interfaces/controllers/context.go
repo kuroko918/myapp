@@ -6,4 +6,5 @@ type Context interface {
 	JSON(int, interface{})
 	Param(string) string
 	Status(int)
+	PostForm(string) string
 }
