@@ -22,11 +22,11 @@ func (repo *MessageRepository) FindAll() (messages domain.Messages, err error) {
 	return
 }
 
-func (repo *MessageRepository) Store(u domain.Message) (message domain.Message, err error) {
-	if err = repo.Create(&u).Error; err != nil {
+func (repo *MessageRepository) Store(m domain.Message) (message domain.Message, err error) {
+	if err = repo.Create(&m).Error; err != nil {
 		return
 	}
-	message = u
+	message = m
 	return
 }
 
