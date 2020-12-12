@@ -33,7 +33,7 @@ func init() {
 	messagesController := controllers.NewMessagesController(NewSqlHandler())
 	router.GET("/messages", func(c *gin.Context) { messagesController.Index(c) })
 	router.POST("/message", func(c *gin.Context) { messagesController.Create(c) })
-	router.PUT("/messages", func(c *gin.Context) { messagesController.Update(c) })
+	router.PUT("/message/:id", func(c *gin.Context) { messagesController.Update(c) })
 	router.DELETE("/message/:id", func(c *gin.Context) { messagesController.Delete(c) })
 
 	Router = router
