@@ -6,13 +6,13 @@ type MessageInteractor struct {
 	MessageRepository MessageRepository
 }
 
-func (interactor *MessageInteractor) Add(u domain.Message) (message domain.Message, err error) {
-	message, err = interactor.MessageRepository.Store(u)
+func (interactor *MessageInteractor) Add(m domain.Message) (message domain.Message, err error) {
+	message, err = interactor.MessageRepository.Store(m)
 	return
 }
 
-func (interactor *MessageInteractor) DeleteById(u domain.Message) (err error) {
-	err = interactor.MessageRepository.DeleteById(u)
+func (interactor *MessageInteractor) DeleteById(m domain.Message) (err error) {
+	err = interactor.MessageRepository.DeleteById(m)
 	return
 }
 
@@ -21,7 +21,7 @@ func (interactor *MessageInteractor) Messages() (messages domain.Messages, err e
 	return
 }
 
-func (interactor *MessageInteractor) Update(u domain.Message) (message domain.Message, err error) {
-	message, err = interactor.MessageRepository.Update(u)
+func (interactor *MessageInteractor) Update(m domain.Message, attrs ...interface{}) (message domain.Message, err error) {
+	message, err = interactor.MessageRepository.Update(m)
 	return
 }

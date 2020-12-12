@@ -8,6 +8,7 @@ type Message struct {
 	UserId    string    `json:"userId"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+	DeletedAt time.Time `json:"deletedAt"`
 }
 
 type Messages []Message

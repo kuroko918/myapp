@@ -8,7 +8,7 @@ import (
 )
 
 func NewSqlHandler() database.SqlHandler {
-	conn, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/myapp")
+	conn, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/myapp?parseTime=true")
 	if err != nil {
 		panic(err.Error)
 	}
@@ -25,7 +25,7 @@ func (handler *SqlHandler) Create(value interface{}) *gorm.DB {
 	return handler.Conn.Create(value)
 }
 
-func (handler *SqlHandler) Delete(value interface{}) *gorm.DB {
+func (handler *SqlHandler) Delete(value interface{}, where ...interface{}) *gorm.DB {
 	return handler.Conn.Delete(value)
 }
 
@@ -33,6 +33,14 @@ func (handler *SqlHandler) Find(out interface{}, where ...interface{}) *gorm.DB 
 	return handler.Conn.Find(out, where...)
 }
 
+func (handler *SqlHandler) Model(value interface{}) *gorm.DB {
+	return handler.Conn.Model(value)
+}
+
 func (handler *SqlHandler) Save(value interface{}) *gorm.DB {
 	return handler.Conn.Save(value)
+}
+
+func (handler *SqlHandler) Update(attrs ...interface{}) *gorm.DB {
+	return handler.Conn.Update(attrs)
 }
