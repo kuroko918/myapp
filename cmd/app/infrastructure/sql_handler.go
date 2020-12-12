@@ -8,7 +8,7 @@ import (
 )
 
 func NewSqlHandler() database.SqlHandler {
-	conn, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/myapp")
+	conn, err := gorm.Open("mysql", "root:@tcp(127.0.0.1:3306)/myapp?parseTime=true")
 	if err != nil {
 		panic(err.Error)
 	}
