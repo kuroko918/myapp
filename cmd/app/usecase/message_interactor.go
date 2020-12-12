@@ -21,7 +21,7 @@ func (interactor *MessageInteractor) Messages() (messages domain.Messages, err e
 	return
 }
 
-func (interactor *MessageInteractor) Update(m domain.Message) (message domain.Message, err error) {
+func (interactor *MessageInteractor) Update(m domain.Message, attrs ...interface{}) (message domain.Message, err error) {
 	message, err = interactor.MessageRepository.Update(m)
 	return
 }

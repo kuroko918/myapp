@@ -59,9 +59,12 @@ func (controller *MessagesController) Index(c Context) {
 }
 
 func (controller *MessagesController) Update(c Context) {
-	u := domain.Message{}
-	c.Bind(&u)
-	message, err := controller.Interactor.Update(u)
+	id, _ := strconv.Atoi(c.Param("id"))
+	content := c.PostForm("content")
+	message := domain.Message{
+		ID: id,
+	}
+	message, err := controller.Interactor.Update(message, "Content", content)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
