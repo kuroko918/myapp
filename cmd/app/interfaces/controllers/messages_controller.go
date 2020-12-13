@@ -28,6 +28,10 @@ func (controller *MessagesController) Create(c Context) {
 	m := domain.Message{
 		UserId: userId.(string),
 	}
+	if err := c.Bind(&m); err != nil {
+		c.JSON(500, NewError(err))
+		return
+	}
 	message, err := controller.Interactor.Add(m)
 	if err != nil {
 		c.JSON(500, NewError(err))
