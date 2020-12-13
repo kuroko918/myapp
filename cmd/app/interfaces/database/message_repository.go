@@ -31,7 +31,7 @@ func (repo *MessageRepository) Store(m domain.Message) (message domain.Message, 
 }
 
 func (repo *MessageRepository) Update(m domain.Message, attrs ...interface{}) (message domain.Message, err error) {
-	if err = repo.Model(&m).Update(attrs).Error; err != nil {
+	if err = repo.First(&m).Update(attrs...).Error; err != nil {
 		return
 	}
 	message = m

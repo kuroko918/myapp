@@ -33,12 +33,8 @@ func (handler *SqlHandler) Find(out interface{}, where ...interface{}) *gorm.DB 
 	return handler.Conn.Find(out, where...)
 }
 
-func (handler *SqlHandler) Model(value interface{}) *gorm.DB {
-	return handler.Conn.Model(value)
-}
-
-func (handler *SqlHandler) Save(value interface{}) *gorm.DB {
-	return handler.Conn.Save(value)
+func (handler *SqlHandler) First(out interface{}, where ...interface{}) *gorm.DB {
+	return handler.Conn.First(out, where...)
 }
 
 func (handler *SqlHandler) Update(attrs ...interface{}) *gorm.DB {

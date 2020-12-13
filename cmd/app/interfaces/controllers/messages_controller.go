@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"strconv"
 
 	"github.com/kuroko918/myapp/cmd/app/domain"
@@ -24,11 +25,10 @@ func NewMessagesController(sqlHandler database.SqlHandler) *MessagesController {
 
 func (controller *MessagesController) Create(c Context) {
 	userId, _ := c.Get("AuthenticatedUserId")
-	message := domain.Message{
+	m := domain.Message{
 		UserId: userId.(string),
 	}
-	c.Bind(&message)
-	message, err := controller.Interactor.Add(message)
+	message, err := controller.Interactor.Add(m)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
@@ -60,11 +60,17 @@ func (controller *MessagesController) Index(c Context) {
 
 func (controller *MessagesController) Update(c Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	content := c.PostForm("content")
-	message := domain.Message{
+	jsonData, err := c.GetRawData()
+	if err != nil {
+		c.JSON(500, NewError(err))
+		return
+	}
+	var decoded domain.Message
+	json.Unmarshal([]byte(jsonData), &decoded)
+	m := domain.Message{
 		ID: id,
 	}
-	message, err := controller.Interactor.Update(message, "Content", content)
+	message, err := controller.Interactor.Update(m, decoded)
 	if err != nil {
 		c.JSON(500, NewError(err))
 		return
