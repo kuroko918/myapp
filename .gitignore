@@ -1,1 +1,4 @@
 .DS_store
+
+# For Firebase Admin SDK secret key
+serviceAccountKey.json

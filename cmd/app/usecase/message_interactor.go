@@ -16,12 +16,12 @@ func (interactor *MessageInteractor) DeleteById(m domain.Message) (err error) {
 	return
 }
 
-func (interactor *MessageInteractor) Messages() (messages domain.Messages, err error) {
+func (interactor *MessageInteractor) Messages() (messages []domain.Message, err error) {
 	messages, err = interactor.MessageRepository.FindAll()
 	return
 }
 
-func (interactor *MessageInteractor) Update(m domain.Message, attrs ...interface{}) (message domain.Message, err error) {
-	message, err = interactor.MessageRepository.Update(m, attrs...)
+func (interactor *MessageInteractor) Update(m domain.Message, attrs interface{}) (message domain.Message, err error) {
+	message, err = interactor.MessageRepository.Update(m, attrs)
 	return
 }

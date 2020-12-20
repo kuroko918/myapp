@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
+	"github.com/kuroko918/myapp/cmd/app/utilities"
 	"github.com/kuroko918/myapp/cmd/app/domain"
 	"github.com/kuroko918/myapp/cmd/app/interfaces/database"
 	"github.com/kuroko918/myapp/cmd/app/usecase"
@@ -29,12 +30,12 @@ func (controller *MessagesController) Create(c Context) {
 		UserId: userId.(string),
 	}
 	if err := c.Bind(&m); err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, utilities.NewError(err))
 		return
 	}
 	message, err := controller.Interactor.Add(m)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, utilities.NewError(err))
 		return
 	}
 	c.JSON(201, message)
@@ -47,7 +48,7 @@ func (controller *MessagesController) Delete(c Context) {
 	}
 	err := controller.Interactor.DeleteById(message)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, utilities.NewError(err))
 		return
 	}
 	c.JSON(200, message)
@@ -56,7 +57,7 @@ func (controller *MessagesController) Delete(c Context) {
 func (controller *MessagesController) Index(c Context) {
 	messages, err := controller.Interactor.Messages()
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, utilities.NewError(err))
 		return
 	}
 	c.JSON(200, messages)
@@ -66,7 +67,7 @@ func (controller *MessagesController) Update(c Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	jsonData, err := c.GetRawData()
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, utilities.NewError(err))
 		return
 	}
 	var decoded domain.Message
@@ -76,7 +77,7 @@ func (controller *MessagesController) Update(c Context) {
 	}
 	message, err := controller.Interactor.Update(m, decoded)
 	if err != nil {
-		c.JSON(500, NewError(err))
+		c.JSON(500, utilities.NewError(err))
 		return
 	}
 	c.JSON(201, message)

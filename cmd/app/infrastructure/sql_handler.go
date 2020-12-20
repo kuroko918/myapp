@@ -26,7 +26,7 @@ func (handler *SqlHandler) Create(value interface{}) *gorm.DB {
 }
 
 func (handler *SqlHandler) Delete(value interface{}, where ...interface{}) *gorm.DB {
-	return handler.Conn.Delete(value)
+	return handler.Conn.Delete(value, where...)
 }
 
 func (handler *SqlHandler) Find(out interface{}, where ...interface{}) *gorm.DB {
@@ -37,6 +37,14 @@ func (handler *SqlHandler) First(out interface{}, where ...interface{}) *gorm.DB
 	return handler.Conn.First(out, where...)
 }
 
+func (handler *SqlHandler) FirstOrCreate(out interface{}, where ...interface{}) *gorm.DB {
+	return handler.Conn.FirstOrCreate(out, where...)
+}
+
+func (handler *SqlHandler) Preload(column string, conditions ...interface{}) *gorm.DB {
+	return handler.Conn.Preload(column, conditions...)
+}
+
 func (handler *SqlHandler) Update(attrs ...interface{}) *gorm.DB {
-	return handler.Conn.Update(attrs)
+	return handler.Conn.Update(attrs...)
 }
