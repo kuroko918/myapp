@@ -15,15 +15,15 @@ func (repo *MessageRepository) DeleteById(message domain.Message) (err error) {
 	return
 }
 
-func (repo *MessageRepository) FindAll() (messages domain.Messages, err error) {
-	if err = repo.Find(&messages).Error; err != nil {
+func (repo *MessageRepository) FindAll() (messages []domain.Message, err error) {
+	if err = repo.Preload("User").Find(&messages).Error; err != nil {
 		return
 	}
 	return
 }
 
 func (repo *MessageRepository) Store(m domain.Message) (message domain.Message, err error) {
-	if err = repo.Create(&m).Error; err != nil {
+	if err = repo.Create(&m).Preload("User").Find(&m).Error; err != nil {
 		return
 	}
 	message = m
@@ -31,7 +31,7 @@ func (repo *MessageRepository) Store(m domain.Message) (message domain.Message, 
 }
 
 func (repo *MessageRepository) Update(m domain.Message, attrs ...interface{}) (message domain.Message, err error) {
-	if err = repo.First(&m).Update(attrs...).Error; err != nil {
+	if err = repo.Preload("User").First(&m).Update(attrs).Error; err != nil {
 		return
 	}
 	message = m

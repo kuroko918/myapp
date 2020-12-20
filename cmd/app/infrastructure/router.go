@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/kuroko918/myapp/cmd/app/interfaces/controllers"
-	"github.com/kuroko918/myapp/cmd/app/middleware"
+	"github.com/kuroko918/myapp/cmd/app/interfaces/middleware"
 )
 
 var Router *gin.Engine
@@ -28,7 +28,8 @@ func init() {
 	}))
 
 	// Authentification
-	router.Use(middleware.Auth())
+	authMiddleware := middleware.NewAuthMiddleWare(NewSqlHandler())
+	router.Use(authMiddleware.Auth())
 
 	messagesController := controllers.NewMessagesController(NewSqlHandler())
 	router.GET("/messages", func(c *gin.Context) { messagesController.Index(c) })
