@@ -58,7 +58,7 @@ func (middleware *AuthMiddleWare) Auth() gin.HandlerFunc {
 			ID: token.UID,
 			Name: token.Claims["name"].(string),
 			Email: token.Claims["email"].(string),
-			Avater: token.Claims["picture"].(string),
+			Avatar: token.Claims["picture"].(string),
 		}
 		_, err = middleware.Interactor.GetOrAdd(u)
 		if err != nil {
