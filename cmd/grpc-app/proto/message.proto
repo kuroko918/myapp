@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package message;
+
+option go_package = "github.com/kuroko918/myapp/cmd/grpc-app/proto/message";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+
+service messageService {
+  rpc postMessage(postMessageParams) returns (Message) {
+    option (google.api.http) = {
+      post: "/message"
+      body: "*"
+    };
+  };
+  rpc putMessage(putMessageParams) returns (Message) {
+    option (google.api.http) = {
+      put: "/message/{id}"
+      body: "*"
+    };
+  };
+  rpc deleteMessage(deleteMessageParams) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/message/{id}"
+    };
+  };
+  rpc getMessages(google.protobuf.Empty) returns (MessageList) {
+    option (google.api.http) = {
+      get: "/messages"
+    };
+  };
+}
+
+message Message {
+  uint64 id = 1;
+  string content = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+  user.User user = 7;
+}
+
+message MessageList {
+  repeated Message messages = 1;
+}
+
+message postMessageParams {
+  string content = 1 [(validate.rules).string = { max_len: 1000 }];
+}
+
+message putMessageParams {
+  uint64 id = 1;
+  string content = 2 [(validate.rules).string = { max_len: 1000 }];
+  string user_id = 3;
+}
+
+message deleteMessageParams {
+  uint64 id = 1;
+}
