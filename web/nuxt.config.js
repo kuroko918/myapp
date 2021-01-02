@@ -17,7 +17,8 @@ export default {
   ],
   plugins: [
     '~/plugins/firebase',
-    '~/plugins/persistedState'
+    '~/plugins/persistedState',
+    '~/plugins/axios'
   ],
   components: true,
   buildModules: [
