@@ -1,8 +1,12 @@
 # 使用技術
 ### サーバーサイド
-- go
-- gin（webフレームワーク）
-- gorm（ORマッパー）
+- cmd/app ディレクトリ
+  - go
+  - gin（webフレームワーク）
+  - gorm（ORマッパー）
+- cmd/grpc-app ディレクトリ
+  - go
+  - gRPC（grpc-gateway）
 
 ### フロントエンド
 - Nuxt.js
@@ -13,8 +17,8 @@
 - Flutter
 
 # アーキテクチャ
-- サーバーサイド
-  `Clean Architecture`を採用
+### サーバーサイド
+  - Clean Architecture
 
 # 環境構築
 
@@ -25,8 +29,22 @@ $ cd cmd/app
 # build
 $ go build
 
-# serve at localhost:8080
-$ ./myapp
+# serve at localhost:50051
+# reverse proxy serve at localhost:8080
+$ go run main.go
+```
+
+- gRPC server 及び gRPC reverse proxy server の生成
+```bash
+$ protoc \
+  -I$GOPATH/src/github.com/kuroko918/myapp/cmd/grpc-app/proto \
+  -I$GOPATH/src/github.com/kuroko918/myapp/pkg/envoyproxy/protoc-gen-validate \
+  -I$GOPATH/src/github.com/kuroko918/myapp/pkg/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+  --go_out==plugins=grpc:$GOPATH/src \
+  --go-grpc_out==plugins=grpc:$GOPATH/src \
+  --validate_out=lang=go:$GOPATH/src \
+  --grpc-gateway_out=logtostderr=true:$GOPATH/src \
+  $GOPATH/src/github.com/kuroko918/myapp/cmd/grpc-app/proto/*.proto
 ```
 
 ### フロントエンド
