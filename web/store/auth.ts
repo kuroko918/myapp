@@ -1,14 +1,9 @@
 import { Getters, Actions, Mutations, Module } from 'vuex-smart-module'
+import { IUser } from '../types/models/user'
 import firebase from '~/plugins/firebase'
 
 class AuthState {
-  currentUser: {
-    authToken: string;
-    id: string;
-    name: string;
-    email: string;
-    avater: string;
-  } | null = null;
+  currentUser: IUser | null = null;
 }
 
 class AuthMutations extends Mutations<AuthState> {
@@ -28,7 +23,7 @@ class AuthMutations extends Mutations<AuthState> {
       id: user.uid,
       name: user.displayName,
       email: user.email,
-      avater: user.photoURL
+      avatar: user.photoURL
     }
   }
 }

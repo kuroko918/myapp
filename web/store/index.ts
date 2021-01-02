@@ -2,6 +2,7 @@ import { Actions, Module } from 'vuex-smart-module'
 import Cookie from 'cookie'
 import { Context } from '@nuxt/types'
 import auth from './auth'
+import message from './message'
 
 class RootActions extends Actions {
   nuxtServerInit (context: Context): void {
@@ -17,7 +18,8 @@ class RootActions extends Actions {
 const root = new Module({
   actions: RootActions,
   modules: {
-    auth
+    auth,
+    message
   }
 })
 

@@ -1,9 +1,7 @@
 <template>
-  <div class="container">
-    <button class="button is-primary is-rounded" @click="login">
-      GitHubでログイン
-    </button>
-  </div>
+  <button class="button is-primary is-rounded" @click="login">
+    GitHubでログイン
+  </button>
 </template>
 
 <script lang='ts'>
@@ -18,14 +16,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-</style>
