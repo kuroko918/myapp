@@ -51,6 +51,11 @@ export default Vue.extend({
           icon: 'mdi-apps',
           title: 'Welcome',
           to: '/'
+        },
+        {
+          icon: 'mdi-comment',
+          title: 'Chat',
+          to: '/chat'
         }
       ],
       title: 'My App'
@@ -58,3 +63,11 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  text-align: center;
+}
+</style>
