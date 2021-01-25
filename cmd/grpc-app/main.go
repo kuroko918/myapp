@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	router.ReverseProxyServer()
+	router.Server()
 }
