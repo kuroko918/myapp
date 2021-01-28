@@ -1,9 +1,11 @@
+import { NuxtConfig } from '@nuxt/types'
+// @ts-ignore
 import colors from 'vuetify/es5/util/colors'
 
-export default {
+const config: NuxtConfig = {
   head: {
-    titleTemplate: '%s - frontend',
-    title: 'frontend',
+    titleTemplate: '%s - myapp',
+    title: 'myapp',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -47,9 +49,16 @@ export default {
       }
     }
   },
+  server: {
+    port: process.env.PORT || 3000,
+    host: process.env.HOST || '0.0.0.0',
+    timing: false
+  },
   build: {
   },
   router: {
     middleware: 'authenticate'
   }
 }
+
+export default config
