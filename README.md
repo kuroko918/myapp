@@ -18,6 +18,9 @@
 ### ネイティブアプリ
 - Flutter
 
+### 共通
+- 認証系： firebase Authorization
+
 # アーキテクチャ
 ### サーバーサイド
   - Clean Architecture
