@@ -42,14 +42,14 @@ $ go run main.go
 - gRPC server 及び gRPC reverse proxy server の生成
 ```bash
 $ protoc \
-  -I$GOPATH/src/github.com/kuroko918/myapp/cmd/grpc-app/proto \
-  -I$GOPATH/src/github.com/kuroko918/myapp/pkg/envoyproxy/protoc-gen-validate \
-  -I$GOPATH/src/github.com/kuroko918/myapp/pkg/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-  --go_out==plugins=grpc:$GOPATH/src \
-  --go-grpc_out==plugins=grpc:$GOPATH/src \
-  --validate_out=lang=go:$GOPATH/src \
-  --grpc-gateway_out=logtostderr=true:$GOPATH/src \
-  $GOPATH/src/github.com/kuroko918/myapp/cmd/grpc-app/proto/*.proto
+    -I$GOPATH/src/github.com/kuroko918/myapp/cmd/grpc-app/proto \
+    -I$GOPATH/src/github.com/kuroko918/myapp/pkg/envoyproxy/protoc-gen-validate \
+    -I$GOPATH/src/github.com/kuroko918/myapp/pkg/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+    --go_out==plugins=grpc:$GOPATH/src \
+    --go-grpc_out==plugins=grpc:$GOPATH/src \
+    --validate_out=lang=go:$GOPATH/src \
+    --grpc-gateway_out=logtostderr=true:$GOPATH/src \
+    $GOPATH/src/github.com/kuroko918/myapp/cmd/grpc-app/proto/*.proto
 ```
 
 ### フロントエンド
