@@ -31,12 +31,11 @@
 ```bash
 $ cd cmd/app
 
-# build
-$ go build
-
 # serve at localhost:50051
-# reverse proxy serve at localhost:8080
 $ go run main.go
+
+# reverse proxy serve at localhost:8080
+$ cd reverse-proxy & go run main.go
 ```
 
 - gRPC server 及び gRPC reverse proxy server の生成
