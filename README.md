@@ -7,6 +7,7 @@
 - cmd/grpc-app ディレクトリ
   - go
   - gRPC（grpc-gateway）
+  - Cloud Firestore
 
 ### フロントエンド
 - Nuxt.js（SSR）
