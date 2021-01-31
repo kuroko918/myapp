@@ -2,7 +2,10 @@ package servers
 
 import (
 	"context"
+	"time"
+
 	"google.golang.org/protobuf/types/known/emptypb"
+	"github.com/google/uuid"
 
 	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 	"github.com/kuroko918/myapp/cmd/grpc-app/interfaces/database"
@@ -12,26 +15,44 @@ import (
 )
 
 type MessagesServer struct {
-	Interactor usecase.MessageInteractor
+	MessageInteractor usecase.MessageInteractor
+	UserInteractor usecase.UserInteractor
 	messagepb.UnimplementedMessageServiceServer
 }
 
-func NewMessagesServer(sqlHandler database.SqlHandler) *MessagesServer {
+func NewMessagesServer(dbHandler database.DbHandler) *MessagesServer {
 	return &MessagesServer{
-		Interactor: usecase.MessageInteractor{
+		MessageInteractor: usecase.MessageInteractor{
 			MessageRepository: &database.MessageRepository{
-				SqlHandler: sqlHandler,
+				DbHandler: dbHandler,
+			},
+		},
+		UserInteractor: usecase.UserInteractor{
+			UserRepository: &database.UserRepository{
+				DbHandler: dbHandler,
 			},
 		},
 	}
 }
 
 func (server *MessagesServer) PostMessage(ctx context.Context, req *messagepb.PostMessageParams) (message *messagepb.Message, err error) {
-	m := domain.Message{
-		Content: req.GetContent(),
-		UserId: ctx.Value("AuthenticatedUserId").(string),
+	id, _ := uuid.NewRandom()
+	userId := ctx.Value("AuthenticatedUserId").(string)
+	user, err := server.UserInteractor.User(ctx, userId)
+	if err != nil {
+		return
 	}
-	m, err = server.Interactor.Add(m)
+
+	timeNow := time.Now()
+	m := domain.Message{
+		ID: id.String(),
+		Content: req.GetContent(),
+		UserId: userId,
+		User: user,
+		CreatedAt: timeNow,
+		UpdatedAt: timeNow,
+	}
+	m, err = server.MessageInteractor.Add(ctx, m)
 	if err != nil {
 		return
 	}
@@ -44,10 +65,12 @@ func (server *MessagesServer) PostMessage(ctx context.Context, req *messagepb.Po
 }
 
 func (server *MessagesServer) PutMessage(ctx context.Context, req *messagepb.PutMessageParams) (message *messagepb.Message, err error) {
-	m := domain.Message{
-		ID: req.GetId(),
+	messageMap := map[string]interface{}{
+		"ID": req.GetId(),
+		"Content": req.GetContent(),
+		"UpdatedAt": time.Now(),
 	}
-	m, err = server.Interactor.Update(m, "Content", req.GetContent())
+	m, err := server.MessageInteractor.Update(ctx, messageMap)
 	if err != nil {
 		return
 	}
@@ -63,7 +86,7 @@ func (server *MessagesServer) DeleteMessage(ctx context.Context, req *messagepb.
 	message := domain.Message{
 		ID: req.GetId(),
 	}
-	err = server.Interactor.DeleteById(message)
+	err = server.MessageInteractor.DeleteById(ctx, message)
 	if err != nil {
 		return new(emptypb.Empty), err
 	}
@@ -74,7 +97,7 @@ func (server *MessagesServer) GetMessages(ctx context.Context, _ *emptypb.Empty)
 	var message *messagepb.Message
 	var messageList []*messagepb.Message
 
-	ms, err := server.Interactor.Messages()
+	ms, err := server.MessageInteractor.Messages(ctx)
 	if err != nil {
 		return
 	}

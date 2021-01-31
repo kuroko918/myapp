@@ -17,7 +17,7 @@ func ProtoMessage(m domain.Message) (message *messagepb.Message, err error) {
 		err = status.Errorf(codes.Internal, "created_at cannot be parsed to timestamp")
 		return
 	}
-	uuat, err := ptypes.TimestampProto(*m.User.UpdatedAt)
+	uuat, err := ptypes.TimestampProto(m.User.UpdatedAt)
 	if err != nil {
 		err = status.Errorf(codes.Internal, "updated_at cannot be parsed to timestamp")
 		return
@@ -28,7 +28,7 @@ func ProtoMessage(m domain.Message) (message *messagepb.Message, err error) {
 		err = status.Errorf(codes.Internal, "created_at cannot be parsed to timestamp")
 		return
 	}
-	muat, err := ptypes.TimestampProto(*m.UpdatedAt)
+	muat, err := ptypes.TimestampProto(m.UpdatedAt)
 	if err != nil {
 		err = status.Errorf(codes.Internal, "updated_at cannot be parsed to timestamp")
 		return
