@@ -1,7 +1,12 @@
 package usecase
 
-import "github.com/kuroko918/myapp/cmd/grpc-app/domain"
+import (
+	"context"
+
+	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
+)
 
 type UserRepository interface {
-	GetOrStore(domain.User) (domain.User, error)
+	GetOrStore(context.Context, domain.User) (domain.User, error)
+	Get(context.Context, string) (domain.User, error)
 }
