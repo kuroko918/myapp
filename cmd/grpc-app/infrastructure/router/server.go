@@ -33,7 +33,7 @@ func Server() {
 		log.Fatal(err)
 	}
 
-	authInterceptor := interceptor.NewAuthInterceptor(infrastructure.NewSqlHandler())
+	authInterceptor := interceptor.NewAuthInterceptor(infrastructure.NewDbHandler())
 	server := grpc.NewServer(
 		grpc.UnaryInterceptor(
 			grpc_middleware.ChainUnaryServer(
@@ -48,7 +48,7 @@ func Server() {
 		),
 	)
 
-	MessagesServer := servers.NewMessagesServer(infrastructure.NewSqlHandler())
+	MessagesServer := servers.NewMessagesServer(infrastructure.NewDbHandler())
 	messagepb.RegisterMessageServiceServer(server, MessagesServer)
 
 	reflection.Register(server)
