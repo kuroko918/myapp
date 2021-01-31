@@ -1,27 +1,31 @@
 package usecase
 
-import "github.com/kuroko918/myapp/cmd/grpc-app/domain"
+import (
+	"context"
+
+	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
+)
 
 type MessageInteractor struct {
 	MessageRepository MessageRepository
 }
 
-func (interactor *MessageInteractor) Add(m domain.Message) (message domain.Message, err error) {
-	message, err = interactor.MessageRepository.Store(m)
+func (interactor *MessageInteractor) Add(ctx context.Context, m domain.Message) (message domain.Message, err error) {
+	message, err = interactor.MessageRepository.Store(ctx, m)
 	return
 }
 
-func (interactor *MessageInteractor) DeleteById(m domain.Message) (err error) {
-	err = interactor.MessageRepository.DeleteById(m)
+func (interactor *MessageInteractor) DeleteById(ctx context.Context, m domain.Message) (err error) {
+	err = interactor.MessageRepository.DeleteById(ctx, m)
 	return
 }
 
-func (interactor *MessageInteractor) Messages() (messages []domain.Message, err error) {
-	messages, err = interactor.MessageRepository.FindAll()
+func (interactor *MessageInteractor) Messages(ctx context.Context) (messages []domain.Message, err error) {
+	messages, err = interactor.MessageRepository.FindAll(ctx)
 	return
 }
 
-func (interactor *MessageInteractor) Update(m domain.Message, attrs ...interface{}) (message domain.Message, err error) {
-	message, err = interactor.MessageRepository.Update(m, attrs...)
+func (interactor *MessageInteractor) Update(ctx context.Context, m map[string]interface{}) (message domain.Message, err error) {
+	message, err = interactor.MessageRepository.Update(ctx, m)
 	return
 }

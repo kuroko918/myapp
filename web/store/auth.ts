@@ -19,7 +19,7 @@ class AuthMutations extends Mutations<AuthState> {
     }
 
     this.state.currentUser = {
-      authToken: user.ya,
+      authToken: user.za,
       id: user.uid,
       name: user.displayName,
       email: user.email,

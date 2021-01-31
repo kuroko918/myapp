@@ -2,6 +2,7 @@ package interceptor
 
 import (
 	"context"
+	"time"
 
 	"google.golang.org/api/option"
 	firebase "firebase.google.com/go"
@@ -16,11 +17,11 @@ type AuthInterceptor struct {
 	Interactor usecase.UserInteractor
 }
 
-func NewAuthInterceptor(sqlHandler database.SqlHandler) *AuthInterceptor {
+func NewAuthInterceptor(dbHandler database.DbHandler) *AuthInterceptor {
 	return &AuthInterceptor{
 		Interactor: usecase.UserInteractor{
 			UserRepository: &database.UserRepository{
-				SqlHandler: sqlHandler,
+				DbHandler: dbHandler,
 			},
 		},
 	}
@@ -28,12 +29,12 @@ func NewAuthInterceptor(sqlHandler database.SqlHandler) *AuthInterceptor {
 
 func (interceptor *AuthInterceptor) Auth(ctx context.Context) (newCtx context.Context, err error) {
 	opt := option.WithCredentialsFile("./serviceAccountKey.json")
-	app, err := firebase.NewApp(context.Background(), nil, opt)
+	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		return
 	}
 
-	client, err := app.Auth(context.Background())
+	client, err := app.Auth(ctx)
 	if err != nil {
 		return
 	}
@@ -43,19 +44,22 @@ func (interceptor *AuthInterceptor) Auth(ctx context.Context) (newCtx context.Co
 		return
 	}
 
-	token, err := client.VerifyIDToken(context.Background(), authToken)
+	token, err := client.VerifyIDToken(ctx, authToken)
 	if err != nil {
 		return
 	}
 
 	// DBに存在しない user は保存する
+	timeNow := time.Now()
 	u := domain.User{
 		ID: token.UID,
 		Name: token.Claims["name"].(string),
 		Email: token.Claims["email"].(string),
 		Avatar: token.Claims["picture"].(string),
+		CreatedAt: timeNow,
+		UpdatedAt: timeNow,
 	}
-	_, err = interceptor.Interactor.GetOrAdd(u)
+	_, err = interceptor.Interactor.GetOrAdd(ctx, u)
 	if err != nil {
 		return
 	}
