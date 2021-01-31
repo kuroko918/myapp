@@ -6,6 +6,5 @@ export type IMessage = {
   userId: string
   createdAt: string
   updatedAt: string
-  deletedAt?: string
   user: IUser
 }

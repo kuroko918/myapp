@@ -35,7 +35,6 @@ class MessageMutations extends Mutations<MessagesState> {
 
 class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutations> {
   store!: Store<any>
-  url = 'http://localhost:8080'
 
   $init (store: Store<any>): void {
     this.store = store
@@ -43,7 +42,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
 
   async getMessages (): Promise<void> {
     try {
-      const response = await this.store.$axios.$get(`${this.url}/messages`)
+      const response = await this.store.$axios.$get(`${process.env.URL}/messages`)
       this.commit('setMessages', response.messages)
     } catch (error) {
       alert(error)
@@ -55,7 +54,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
       const params = {
         content
       }
-      const response = await this.store.$axios.$post(`${this.url}/message`, params)
+      const response = await this.store.$axios.$post(`${process.env.URL}/message`, params)
       this.commit('addMessage', response)
     } catch (error) {
       alert(error)
@@ -67,7 +66,8 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
       const params = {
         content
       }
-      const response = await this.store.$axios.$put(`${this.url}/message/${messageId}`, params)
+      const response = await this.store.$axios.$put(`${process.env.URL}/message/${messageId}`, params)
+      console.log("response", response)
       this.commit('updateMessage', response)
     } catch (error) {
       alert(error)
@@ -76,7 +76,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
 
   async deleteMessage (messageId: number): Promise<void> {
     try {
-      await this.store.$axios.$delete(`${this.url}/message/${messageId}`)
+      await this.store.$axios.$delete(`${process.env.URL}/message/${messageId}`)
       this.commit('deleteMessage', messageId)
     } catch (error) {
       alert(error)
