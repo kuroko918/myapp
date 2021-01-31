@@ -36,7 +36,7 @@ service messageService {
 }
 
 message Message {
-  uint64 id = 1;
+  string id = 1;
   string content = 2;
   string user_id = 3;
   google.protobuf.Timestamp created_at = 4;
@@ -53,11 +53,11 @@ message postMessageParams {
 }
 
 message putMessageParams {
-  uint64 id = 1;
+  string id = 1;
   string content = 2 [(validate.rules).string = { max_len: 1000 }];
   string user_id = 3;
 }
 
 message deleteMessageParams {
-  uint64 id = 1;
+  string id = 1;
 }
