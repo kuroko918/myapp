@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"cloud.google.com/go/firestore"
-
 	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 )
 
@@ -29,10 +27,10 @@ func (repo *UserRepository) Get(ctx context.Context, userId string) (user domain
 	return
 }
 
-func (repo *UserRepository) GetOrStore(ctx context.Context, u domain.User) (user domain.User, err error) {
-	if _, err = repo.Collection("users").Doc(u.ID).Set(ctx, u, firestore.Merge([]string{"UpdatedAt"})); err != nil {
-		return
-	}
-	user = u
-	return
-}
+// func (repo *UserRepository) GetOrStore(ctx context.Context, u domain.User) (user domain.User, err error) {
+// 	if _, err = repo.Collection("users").Doc(u.ID).Set(ctx, u); err != nil {
+// 		return
+// 	}
+// 	user = u
+// 	return
+// }
