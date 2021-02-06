@@ -2,13 +2,11 @@ package interceptor
 
 import (
 	"context"
-	"time"
 
 	"google.golang.org/api/option"
 	firebase "firebase.google.com/go"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 
-	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 	"github.com/kuroko918/myapp/cmd/grpc-app/interfaces/database"
 	"github.com/kuroko918/myapp/cmd/grpc-app/usecase"
 )
@@ -45,21 +43,6 @@ func (interceptor *AuthInterceptor) Auth(ctx context.Context) (newCtx context.Co
 	}
 
 	token, err := client.VerifyIDToken(ctx, authToken)
-	if err != nil {
-		return
-	}
-
-	// DBに存在しない user は保存する
-	timeNow := time.Now()
-	u := domain.User{
-		ID: token.UID,
-		Name: token.Claims["name"].(string),
-		Email: token.Claims["email"].(string),
-		Avatar: token.Claims["picture"].(string),
-		CreatedAt: timeNow,
-		UpdatedAt: timeNow,
-	}
-	_, err = interceptor.Interactor.GetOrAdd(ctx, u)
 	if err != nil {
 		return
 	}
