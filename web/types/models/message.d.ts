@@ -1,7 +1,7 @@
 import { IUser } from './user'
 
 export type IMessage = {
-  id: number
+  id: string
   content: string
   userId: string
   createdAt: string

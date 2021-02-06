@@ -24,7 +24,7 @@ export default Vue.extend({
   computed: {
     // @ts-ignore
     chipPosition (message: IMessage): string {
-      if (this.$store.state.auth.currentUser.id === message.userId) { return 'pullRight' }
+      if (this.$store.state.auth.currentUser.id === message.userId) return 'pullRight'
 
       return 'pullLeft'
     }

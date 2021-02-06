@@ -1,6 +1,6 @@
 import { Getters, Actions, Mutations, Module } from 'vuex-smart-module'
 import { IUser } from '../types/models/user'
-import firebase from '~/plugins/firebase'
+import firebase from '../plugins/firebase'
 
 class AuthState {
   currentUser: IUser | null = null;
@@ -34,6 +34,19 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
     try {
       const result = await firebase.auth().signInWithPopup(provider)
       this.commit('setCurrentUser', result.user)
+
+      const db = firebase.firestore()
+      const user = await db.collection('users').doc((result.user as any).uid).get()
+      if (user.exists) return
+
+      db.collection('users').doc((result.user as any).uid).set({
+        id: (result.user as any).uid,
+        name: (result.user as any).displayName,
+        email: (result.user as any).email,
+        avatar: (result.user as any).photoURL,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: null,
+      })
     } catch (error) {
       alert(error)
     }

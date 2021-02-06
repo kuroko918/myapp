@@ -13,14 +13,14 @@ export default Vue.extend({
   props: {
     user: {
       type: Object as PropType<IUser>,
-      default: () => {}
+      required: true,
     }
   },
   computed: {
     userAvatar (): string {
-      if (!(this.user as IUser).avatar) { return '/images/flutter.png' }
+      if (!this.user.avatar) return '/images/flutter.png'
 
-      return (this.user as IUser).avatar
+      return this.user.avatar
     }
   }
 })

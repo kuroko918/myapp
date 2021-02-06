@@ -25,7 +25,7 @@ export default Vue.extend({
       await this.$store.dispatch('message/getMessages')
     },
     async createMessage (content: string): Promise<void> {
-      if (!content) { return }
+      if (!content) return
 
       await this.$store.dispatch('message/postMessage', content)
     }
