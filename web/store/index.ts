@@ -6,12 +6,12 @@ import message from './message'
 
 class RootActions extends Actions {
   nuxtServerInit (context: Context): void {
-    if (!context.req.headers?.cookie) { return }
+    if (!context.req.headers.cookie) return
 
-    const cookie = Cookie.parse(context.req?.headers?.cookie)
+    const cookie = Cookie.parse(context.req.headers.cookie)
     const vuex = cookie.vuex && JSON.parse(cookie.vuex)
     // @ts-ignore
-    if (vuex) { this.commit('auth/setCurrentUser', vuex.currentUser) }
+    if (vuex) this.commit('auth/setCurrentUser', vuex.currentUser)
   }
 }
 
@@ -19,7 +19,7 @@ const root = new Module({
   actions: RootActions,
   modules: {
     auth,
-    message
+    message,
   }
 })
 
@@ -29,5 +29,5 @@ export const {
   mutations,
   actions,
   modules,
-  plugins
+  plugins,
 } = root.getStoreOptions()

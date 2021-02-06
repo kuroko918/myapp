@@ -4,8 +4,8 @@ import colors from 'vuetify/es5/util/colors'
 
 const config: NuxtConfig = {
   head: {
-    titleTemplate: '%s - myapp',
-    title: 'myapp',
+    titleTemplate: '%s - myapp-kuroko918',
+    title: 'myapp-kuroko918',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -18,18 +18,19 @@ const config: NuxtConfig = {
   css: [
   ],
   plugins: [
-    '~/plugins/firebase',
-    '~/plugins/persistedState',
-    '~/plugins/axios'
+    './plugins/axios',
+    './plugins/firebase',
+    './plugins/persistedState',
   ],
   components: true,
   buildModules: [
+    '@nuxtjs/dotenv',
     '@nuxt/typescript-build',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
   ],
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
   ],
   axios: {},
   vuetify: {
@@ -49,16 +50,16 @@ const config: NuxtConfig = {
       }
     }
   },
-  server: {
-    port: process.env.PORT || 3000,
-    host: process.env.HOST || '0.0.0.0',
-    timing: false
-  },
   build: {
   },
   router: {
     middleware: 'authenticate'
-  }
+  },
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    timing: false,
+  },
 }
 
 export default config

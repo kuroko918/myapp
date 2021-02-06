@@ -58,7 +58,7 @@ export default Vue.extend({
           to: '/chat'
         }
       ],
-      title: 'My App'
+      title: 'My App',
     }
   }
 })
