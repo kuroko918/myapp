@@ -13,8 +13,7 @@
 - Nuxt.js（SSR）
 - TypeScript（Vuexの型付け：vuex-smart-module）
 - Jest
-- Cloud Run(動的コンテンツの配信用)
-- firebase Hosting(静的コンテンツの配信用)
+- [本番環境]Cloud Run
 
 ### ネイティブアプリ
 - Flutter
