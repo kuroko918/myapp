@@ -21,12 +21,12 @@ export default Vue.extend({
   props: {
     error: {
       type: Object,
-      default: null
+      default: null,
     }
   },
   data: () => ({
     pageNotFound: '404 Not Found',
-    otherError: 'An error occurred'
+    otherError: 'An error occurred',
   }),
   head: () => {
     // @ts-ignore

@@ -23,7 +23,7 @@ class AuthMutations extends Mutations<AuthState> {
       id: user.uid,
       name: user.displayName,
       email: user.email,
-      avatar: user.photoURL
+      avatar: user.photoURL,
     }
   }
 }
@@ -59,5 +59,5 @@ export default new Module({
   state: AuthState,
   getters: AuthGetters,
   mutations: AuthMutations,
-  actions: AuthActions
+  actions: AuthActions,
 })

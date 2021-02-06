@@ -37,6 +37,13 @@ $ go run main.go
 
 # reverse proxy serve at localhost:8080
 $ cd reverse-proxy & go run main.go
+
+# How to deploy
+## Create mod vender
+$ go mod vender
+## Deploy gRPC server to GAE
+$ cd ~/src/github.com/kuroko918/myapp/cmd/grpc-app
+$ gcloud app deploy
 ```
 
 - gRPC server 及び gRPC reverse proxy server の生成
@@ -66,8 +73,12 @@ $ yarn dev
 $ yarn build
 $ yarn start
 
-# generate static project
-$ yarn generate
+# How to deploy
+### Create docker image & Upload to Container Registry
+$ gcloud builds submit --tag asia.gcr.io/myapp-kuroko918/nuxt:<tag> .
+
+### Deploy into Cloud Run
+$ gcloud run deploy --image=asia.gcr.io/myapp-kuroko918/nuxt:<tag> --platform managed --port 3000 --region asia-northeast1
 ```
 
 ### ネイティブアプリ

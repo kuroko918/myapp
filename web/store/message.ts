@@ -21,13 +21,13 @@ class MessageMutations extends Mutations<MessagesState> {
 
   updateMessage (message: IMessage): void {
     this.state.messages = this.state.messages.map((m) => {
-      if (m.id === message.id) { return message }
+      if (m.id === message.id) return message
       return m
     })
   }
 
   deleteMessage (messageId: number): void {
-    this.state.messages = this.state.messages.filter((message) => {
+    this.state.messages = this.state.messages.filter(message => {
       return message.id !== messageId
     })
   }
@@ -67,7 +67,6 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
         content
       }
       const response = await this.store.$axios.$put(`${process.env.URL}/message/${messageId}`, params)
-      console.log("response", response)
       this.commit('updateMessage', response)
     } catch (error) {
       alert(error)
@@ -91,5 +90,5 @@ export default new Module({
   state: MessagesState,
   getters: MessageGetters,
   mutations: MessageMutations,
-  actions: MessageActions
+  actions: MessageActions,
 })

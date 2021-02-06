@@ -6,7 +6,7 @@ interface IAxios {
 }
 
 export default ({ $axios }: IAxios) => {
-  $axios.onRequest((config) => {
+  $axios.onRequest(config => {
     const vuex = jsCookie.get('vuex')
     // @ts-ignore
     config.headers.common.Authorization = `bearer ${JSON.parse(vuex).currentUser.authToken}`
