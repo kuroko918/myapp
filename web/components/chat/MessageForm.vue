@@ -56,7 +56,7 @@ export default Vue.extend({
 
       await this.onsubmit(this.innerInputValue)
       this.innerInputValue = ''
-      if (this.toggleEditing) { this.toggleEditing() }
+      if (this.toggleEditing) this.toggleEditing()
     }
   }
 })

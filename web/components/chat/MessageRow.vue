@@ -70,7 +70,7 @@ export default Vue.extend({
   },
   computed: {
     displayedTime (): string {
-      if (this.message.createdAt === this.message.updatedAt) { return this.message.createdAt }
+      if (this.message.createdAt === this.message.updatedAt) return this.message.createdAt
 
       return this.message.updatedAt + '(編集済)'
     }
@@ -83,14 +83,14 @@ export default Vue.extend({
       }
       await this.$store.dispatch('message/putMessage', params)
     },
-    async deleteMessage (messageId: number): Promise<void> {
+    async deleteMessage (messageId: IMessage['id']): Promise<void> {
       await this.$store.dispatch('message/deleteMessage', messageId)
     },
     toggleEditing (): void {
       this.editing = !this.editing
     },
     onDelete (): void {
-      if (!confirm('本当に削除しますか？')) { return }
+      if (!confirm('本当に削除しますか？')) return
 
       this.deleteMessage(this.message.id)
     }

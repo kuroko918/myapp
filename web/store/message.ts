@@ -26,7 +26,7 @@ class MessageMutations extends Mutations<MessagesState> {
     })
   }
 
-  deleteMessage (messageId: number): void {
+  deleteMessage (messageId: IMessage['id']): void {
     this.state.messages = this.state.messages.filter(message => {
       return message.id !== messageId
     })
@@ -49,7 +49,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
     }
   }
 
-  async postMessage (content: string): Promise<void> {
+  async postMessage (content: IMessage['content']): Promise<void> {
     try {
       const params = {
         content
@@ -61,7 +61,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
     }
   }
 
-  async putMessage ({ messageId, content }: { messageId: number, content: string }): Promise<void> {
+  async putMessage ({ messageId, content }: { messageId: IMessage['id'], content: IMessage['content'] }): Promise<void> {
     try {
       const params = {
         content
@@ -73,7 +73,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
     }
   }
 
-  async deleteMessage (messageId: number): Promise<void> {
+  async deleteMessage (messageId: IMessage['id']): Promise<void> {
     try {
       await this.store.$axios.$delete(`${process.env.URL}/message/${messageId}`)
       this.commit('deleteMessage', messageId)
