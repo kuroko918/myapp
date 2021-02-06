@@ -19,7 +19,7 @@
 - Flutter
 
 ### 共通
-- 認証系： firebase Authorization
+- 認証系：firebase Authorization
 
 # アーキテクチャ
 ### サーバーサイド
@@ -38,8 +38,8 @@ $ go run main.go
 $ cd reverse-proxy & go run main.go
 
 # How to deploy
-## Create mod vender
-$ go mod vender
+## Create mod vendor
+$ go mod vendor
 ## Deploy gRPC server to GAE
 $ cd ~/src/github.com/kuroko918/myapp/cmd/grpc-app
 $ gcloud app deploy
