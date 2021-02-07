@@ -9,3 +9,6 @@ pkg/grpc-ecosystem/
 
 # go module vendor
 vendor/
+
+# Ignore VScode config file
+.vscode
