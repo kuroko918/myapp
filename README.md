@@ -8,6 +8,7 @@
   - go
   - gRPC（grpc-gateway）
   - Cloud Firestore
+  - [本番環境]Google App Engine
 
 ### フロントエンド
 - Nuxt.js（SSR）
