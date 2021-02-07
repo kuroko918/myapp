@@ -73,6 +73,10 @@ $ yarn build
 $ yarn start
 
 # How to deploy
+### Remove .env in web/.gitignore file
+
+### Change URL ENV in .env into 'https://myapp-kuroko918.an.r.appspot.com'
+
 ### Create docker image & Upload to Container Registry
 $ gcloud builds submit --tag asia.gcr.io/myapp-kuroko918/nuxt:<tag> .
 
