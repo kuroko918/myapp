@@ -22,7 +22,7 @@ func (repo *MessageRepository) DeleteById(ctx context.Context, message domain.Me
 }
 
 func (repo *MessageRepository) FindAll(ctx context.Context) (messages []domain.Message, err error) {
-	messageSnaps, err := repo.Collection("messages").Documents(ctx).GetAll()
+	messageSnaps, err := repo.Collection("messages").OrderBy("CreatedAt", firestore.Asc).Documents(ctx).GetAll()
 	if err != nil {
 		return nil, err
 	}

@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	router.Server()
+	go router.Server()
+	router.ReverseProxyServer()
 }

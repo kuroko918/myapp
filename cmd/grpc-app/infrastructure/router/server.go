@@ -52,7 +52,8 @@ func Server() {
 	messagepb.RegisterMessageServiceServer(server, MessagesServer)
 
 	reflection.Register(server)
-	if err := server.Serve(listenPort); err != nil {
+	go func() {
+		if err := server.Serve(listenPort); err != nil {
 		log.Fatal(err)
-	}
+	}}()
 }

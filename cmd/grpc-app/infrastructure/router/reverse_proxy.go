@@ -12,9 +12,7 @@ import (
   messagegw "github.com/kuroko918/myapp/cmd/grpc-app/proto/message"
 )
 
-var (
-  grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:50051", "gRPC server endpoint")
-)
+var grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:50051", "gRPC server endpoint")
 
 func run() error {
   ctx := context.Background()
@@ -31,7 +29,7 @@ func run() error {
   handler := handlers.CORS(
     handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
     handlers.AllowedHeaders([]string{"Access-Control-Allow-Headers", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}),
-    handlers.AllowedOrigins([]string{"http://localhost:3000"}),
+    handlers.AllowedOrigins([]string{"http://localhost:3000", "https://nuxt-dtlmvofcca-an.a.run.app"}),
   )(mux)
 
   return http.ListenAndServe(":8080", handler)
