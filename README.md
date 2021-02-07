@@ -1,3 +1,9 @@
+# 本番環境 URL
+## Web
+- https://nuxt-dtlmvofcca-an.a.run.app
+
+## Mobile
+
 # 使用技術
 ### サーバーサイド
 - cmd/app ディレクトリ
