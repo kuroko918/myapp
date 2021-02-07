@@ -45,7 +45,7 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
         email: (result.user as any).email,
         avatar: (result.user as any).photoURL,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: null,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
     } catch (error) {
       alert(error)
