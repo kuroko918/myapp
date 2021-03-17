@@ -1,0 +1,5 @@
+# For Firebase Admin SDK secret key
+serviceAccountKey.json
+
+# go module vendor
+vendor/
