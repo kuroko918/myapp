@@ -290,10 +290,10 @@ var _ interface {
 	ErrorName() string
 } = PostMessageParamsValidationError{}
 
-// Validate checks the field values on PutMessageParams with the rules defined
-// in the proto definition for this message. If any rules are violated, an
-// error is returned.
-func (m *PutMessageParams) Validate() error {
+// Validate checks the field values on PatchMessageParams with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *PatchMessageParams) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -301,7 +301,7 @@ func (m *PutMessageParams) Validate() error {
 	// no validation rules for Id
 
 	if utf8.RuneCountInString(m.GetContent()) > 1000 {
-		return PutMessageParamsValidationError{
+		return PatchMessageParamsValidationError{
 			field:  "Content",
 			reason: "value length must be at most 1000 runes",
 		}
@@ -312,9 +312,9 @@ func (m *PutMessageParams) Validate() error {
 	return nil
 }
 
-// PutMessageParamsValidationError is the validation error returned by
-// PutMessageParams.Validate if the designated constraints aren't met.
-type PutMessageParamsValidationError struct {
+// PatchMessageParamsValidationError is the validation error returned by
+// PatchMessageParams.Validate if the designated constraints aren't met.
+type PatchMessageParamsValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -322,22 +322,24 @@ type PutMessageParamsValidationError struct {
 }
 
 // Field function returns field value.
-func (e PutMessageParamsValidationError) Field() string { return e.field }
+func (e PatchMessageParamsValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e PutMessageParamsValidationError) Reason() string { return e.reason }
+func (e PatchMessageParamsValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e PutMessageParamsValidationError) Cause() error { return e.cause }
+func (e PatchMessageParamsValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e PutMessageParamsValidationError) Key() bool { return e.key }
+func (e PatchMessageParamsValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e PutMessageParamsValidationError) ErrorName() string { return "PutMessageParamsValidationError" }
+func (e PatchMessageParamsValidationError) ErrorName() string {
+	return "PatchMessageParamsValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e PutMessageParamsValidationError) Error() string {
+func (e PatchMessageParamsValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -349,14 +351,14 @@ func (e PutMessageParamsValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sPutMessageParams.%s: %s%s",
+		"invalid %sPatchMessageParams.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = PutMessageParamsValidationError{}
+var _ error = PatchMessageParamsValidationError{}
 
 var _ interface {
 	Field() string
@@ -364,7 +366,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = PutMessageParamsValidationError{}
+} = PatchMessageParamsValidationError{}
 
 // Validate checks the field values on DeleteMessageParams with the rules
 // defined in the proto definition for this message. If any rules are

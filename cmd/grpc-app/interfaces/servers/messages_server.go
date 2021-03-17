@@ -64,7 +64,7 @@ func (server *MessagesServer) PostMessage(ctx context.Context, req *messagepb.Po
 	return
 }
 
-func (server *MessagesServer) PutMessage(ctx context.Context, req *messagepb.PutMessageParams) (message *messagepb.Message, err error) {
+func (server *MessagesServer) PatchMessage(ctx context.Context, req *messagepb.PatchMessageParams) (message *messagepb.Message, err error) {
 	messageMap := map[string]interface{}{
 		"ID": req.GetId(),
 		"Content": req.GetContent(),

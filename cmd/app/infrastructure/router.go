@@ -21,7 +21,7 @@ func init() {
 
 	// CORS
 	router.Use(cors.New(cors.Config{
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowMethods: []string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Access-Control-Allow-Headers", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
 		AllowOrigins: []string{"http://localhost:3000"},
 		MaxAge:       24 * time.Hour,

@@ -20,6 +20,7 @@ import (
 	"github.com/kuroko918/myapp/cmd/grpc-app/infrastructure"
 
 	messagepb "github.com/kuroko918/myapp/cmd/grpc-app/proto/message"
+	userpb "github.com/kuroko918/myapp/cmd/grpc-app/proto/user"
 )
 
 func Server() {
@@ -50,6 +51,9 @@ func Server() {
 
 	MessagesServer := servers.NewMessagesServer(infrastructure.NewDbHandler())
 	messagepb.RegisterMessageServiceServer(server, MessagesServer)
+
+	UsersServer := servers.NewUsersServer(infrastructure.NewDbHandler())
+	userpb.RegisterUserServiceServer(server, UsersServer)
 
 	reflection.Register(server)
 	go func() {

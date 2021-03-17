@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageServiceClient interface {
 	PostMessage(ctx context.Context, in *PostMessageParams, opts ...grpc.CallOption) (*Message, error)
-	PutMessage(ctx context.Context, in *PutMessageParams, opts ...grpc.CallOption) (*Message, error)
+	PatchMessage(ctx context.Context, in *PatchMessageParams, opts ...grpc.CallOption) (*Message, error)
 	DeleteMessage(ctx context.Context, in *DeleteMessageParams, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetMessages(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MessageList, error)
 }
@@ -41,9 +41,9 @@ func (c *messageServiceClient) PostMessage(ctx context.Context, in *PostMessageP
 	return out, nil
 }
 
-func (c *messageServiceClient) PutMessage(ctx context.Context, in *PutMessageParams, opts ...grpc.CallOption) (*Message, error) {
+func (c *messageServiceClient) PatchMessage(ctx context.Context, in *PatchMessageParams, opts ...grpc.CallOption) (*Message, error) {
 	out := new(Message)
-	err := c.cc.Invoke(ctx, "/message.messageService/putMessage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/message.messageService/patchMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (c *messageServiceClient) GetMessages(ctx context.Context, in *emptypb.Empt
 // for forward compatibility
 type MessageServiceServer interface {
 	PostMessage(context.Context, *PostMessageParams) (*Message, error)
-	PutMessage(context.Context, *PutMessageParams) (*Message, error)
+	PatchMessage(context.Context, *PatchMessageParams) (*Message, error)
 	DeleteMessage(context.Context, *DeleteMessageParams) (*emptypb.Empty, error)
 	GetMessages(context.Context, *emptypb.Empty) (*MessageList, error)
 	mustEmbedUnimplementedMessageServiceServer()
@@ -86,8 +86,8 @@ type UnimplementedMessageServiceServer struct {
 func (UnimplementedMessageServiceServer) PostMessage(context.Context, *PostMessageParams) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostMessage not implemented")
 }
-func (UnimplementedMessageServiceServer) PutMessage(context.Context, *PutMessageParams) (*Message, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PutMessage not implemented")
+func (UnimplementedMessageServiceServer) PatchMessage(context.Context, *PatchMessageParams) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchMessage not implemented")
 }
 func (UnimplementedMessageServiceServer) DeleteMessage(context.Context, *DeleteMessageParams) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMessage not implemented")
@@ -126,20 +126,20 @@ func _MessageService_PostMessage_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MessageService_PutMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PutMessageParams)
+func _MessageService_PatchMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchMessageParams)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MessageServiceServer).PutMessage(ctx, in)
+		return srv.(MessageServiceServer).PatchMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/message.messageService/PutMessage",
+		FullMethod: "/message.messageService/PatchMessage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MessageServiceServer).PutMessage(ctx, req.(*PutMessageParams))
+		return srv.(MessageServiceServer).PatchMessage(ctx, req.(*PatchMessageParams))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -189,8 +189,8 @@ var _MessageService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _MessageService_PostMessage_Handler,
 		},
 		{
-			MethodName: "putMessage",
-			Handler:    _MessageService_PutMessage_Handler,
+			MethodName: "patchMessage",
+			Handler:    _MessageService_PatchMessage_Handler,
 		},
 		{
 			MethodName: "deleteMessage",

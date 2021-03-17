@@ -127,3 +127,199 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserValidationError{}
+
+// Validate checks the field values on GetUserParams with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *GetUserParams) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Id
+
+	return nil
+}
+
+// GetUserParamsValidationError is the validation error returned by
+// GetUserParams.Validate if the designated constraints aren't met.
+type GetUserParamsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e GetUserParamsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e GetUserParamsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e GetUserParamsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e GetUserParamsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e GetUserParamsValidationError) ErrorName() string { return "GetUserParamsValidationError" }
+
+// Error satisfies the builtin error interface
+func (e GetUserParamsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sGetUserParams.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = GetUserParamsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = GetUserParamsValidationError{}
+
+// Validate checks the field values on PutUserParams with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *PutUserParams) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	if err := m._validateEmail(m.GetEmail()); err != nil {
+		return PutUserParamsValidationError{
+			field:  "Email",
+			reason: "value must be a valid email address",
+			cause:  err,
+		}
+	}
+
+	// no validation rules for Avatar
+
+	return nil
+}
+
+func (m *PutUserParams) _validateHostname(host string) error {
+	s := strings.ToLower(strings.TrimSuffix(host, "."))
+
+	if len(host) > 253 {
+		return errors.New("hostname cannot exceed 253 characters")
+	}
+
+	for _, part := range strings.Split(s, ".") {
+		if l := len(part); l == 0 || l > 63 {
+			return errors.New("hostname part must be non-empty and cannot exceed 63 characters")
+		}
+
+		if part[0] == '-' {
+			return errors.New("hostname parts cannot begin with hyphens")
+		}
+
+		if part[len(part)-1] == '-' {
+			return errors.New("hostname parts cannot end with hyphens")
+		}
+
+		for _, r := range part {
+			if (r < 'a' || r > 'z') && (r < '0' || r > '9') && r != '-' {
+				return fmt.Errorf("hostname parts can only contain alphanumeric characters or hyphens, got %q", string(r))
+			}
+		}
+	}
+
+	return nil
+}
+
+func (m *PutUserParams) _validateEmail(addr string) error {
+	a, err := mail.ParseAddress(addr)
+	if err != nil {
+		return err
+	}
+	addr = a.Address
+
+	if len(addr) > 254 {
+		return errors.New("email addresses cannot exceed 254 characters")
+	}
+
+	parts := strings.SplitN(addr, "@", 2)
+
+	if len(parts[0]) > 64 {
+		return errors.New("email address local phrase cannot exceed 64 characters")
+	}
+
+	return m._validateHostname(parts[1])
+}
+
+// PutUserParamsValidationError is the validation error returned by
+// PutUserParams.Validate if the designated constraints aren't met.
+type PutUserParamsValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PutUserParamsValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PutUserParamsValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PutUserParamsValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PutUserParamsValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PutUserParamsValidationError) ErrorName() string { return "PutUserParamsValidationError" }
+
+// Error satisfies the builtin error interface
+func (e PutUserParamsValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPutUserParams.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PutUserParamsValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PutUserParamsValidationError{}

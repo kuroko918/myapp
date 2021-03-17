@@ -4,7 +4,23 @@ package user;
 
 option go_package = "github.com/kuroko918/myapp/cmd/grpc-app/proto/user";
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
+service userService {
+  rpc getUser(getUserParams) returns (User) {
+    option (google.api.http) = {
+      get: "/user/{id}"
+    };
+  };
+  rpc putUser(putUserParams) returns (User) {
+    option (google.api.http) = {
+      put: "/user/{id}"
+      body: "*"
+    };
+  };
+}
 
 message User {
   string id = 1;
@@ -13,4 +29,15 @@ message User {
   string avatar = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
+}
+
+message getUserParams {
+  string id = 1;
+}
+
+message putUserParams {
+  string id = 1;
+  string name = 2;
+  string email = 3 [(validate.rules).string.email = true];
+  string avatar = 4;
 }
