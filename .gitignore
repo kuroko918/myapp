@@ -1,14 +1,5 @@
 .DS_store
 
-# For Firebase Admin SDK secret key
-serviceAccountKey.json
-
 # packages
 pkg/envoyproxy/
 pkg/grpc-ecosystem/
-
-# go module vendor
-vendor/
-
-# Ignore VScode config file
-.vscode
