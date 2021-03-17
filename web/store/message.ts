@@ -61,12 +61,12 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
     }
   }
 
-  async putMessage ({ messageId, content }: { messageId: IMessage['id'], content: IMessage['content'] }): Promise<void> {
+  async patchMessage ({ messageId, content }: { messageId: IMessage['id'], content: IMessage['content'] }): Promise<void> {
     try {
       const params = {
         content
       }
-      const response = await this.store.$axios.$put(`${process.env.URL}/message/${messageId}`, params)
+      const response = await this.store.$axios.$patch(`${process.env.URL}/message/${messageId}`, params)
       this.commit('updateMessage', response)
     } catch (error) {
       alert(error)

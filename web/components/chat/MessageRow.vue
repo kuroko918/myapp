@@ -81,7 +81,7 @@ export default Vue.extend({
         messageId: this.message.id,
         content
       }
-      await this.$store.dispatch('message/putMessage', params)
+      await this.$store.dispatch('message/patchMessage', params)
     },
     async deleteMessage (messageId: IMessage['id']): Promise<void> {
       await this.$store.dispatch('message/deleteMessage', messageId)
