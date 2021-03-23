@@ -23,7 +23,11 @@
 - [本番環境]Cloud Run
 
 ### ネイティブアプリ
-- Flutter
+- Flutter(flutter_hooks)
+  - 状態管理: Riverpod(hooks_riverpod)
+  - 状態変更通知: StateNotifier
+  - HTTP通信: Retrofit(Dio)
+  - Json解析： freezed
 
 ### 共通
 - 認証系：firebase Authorization
