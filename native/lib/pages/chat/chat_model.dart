@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:myapp/domains/message.dart';
 import 'package:myapp/utils/api/message_api_client.dart';
@@ -30,6 +31,7 @@ class MessagesState extends StateNotifier<AsyncValue<List<Message>>> {
       messageList.add(newMessage);
       state = AsyncValue.data(messageList);
     } on Exception catch (e) {
+      EasyLoading.showError('メッセージの作成に失敗しました。');
       print(e);
     }
   }
@@ -43,6 +45,7 @@ class MessagesState extends StateNotifier<AsyncValue<List<Message>>> {
       }).toList();
       state = AsyncValue.data(newMessageList);
     } on Exception catch (e) {
+      EasyLoading.showError('メッセージの更新に失敗しました。');
       print(e);
     }
   }
@@ -53,6 +56,7 @@ class MessagesState extends StateNotifier<AsyncValue<List<Message>>> {
       messageList.removeWhere((Message m) => m.id == messageId);
       state = AsyncValue.data(messageList);
     } on Exception catch (e) {
+      EasyLoading.showError('メッセージの削除に失敗しました。');
       print(e);
     }
   }

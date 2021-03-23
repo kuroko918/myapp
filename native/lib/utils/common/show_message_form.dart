@@ -30,7 +30,7 @@ Future<void> showNewMessageForm(BuildContext context, Future Function(Map<String
               final submitContent = editingContent.trim();
 
               if (submitContent == '') return;
-              if (submitContent.length > 1000) return;
+              if (submitContent.length > 140) return;
 
               await postMessage({'content': editingContent});
               Navigator.of(context).pop();
@@ -77,7 +77,7 @@ Future<void> showEditMessageForm(BuildContext context, Message message, Future F
 
               if (submitContent == '') return;
               if (submitContent == message.content) return;
-              if (submitContent.length > 1000) return;
+              if (submitContent.length > 140) return;
 
               await patchMessage(message.id, {'content': submitContent});
               Navigator.of(context).pop();

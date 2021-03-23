@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:myapp/utils/firebase/firebase_auth.dart';
@@ -6,16 +7,16 @@ import 'package:myapp/domains/message.dart';
 
 part 'message_api_client.g.dart';
 
-@RestApi(baseUrl: 'http://localhost:8080')
 abstract class MessageApiClient {
   factory MessageApiClient(Dio dio, {String baseUrl}) = _MessageApiClient;
 
   static Future<MessageApiClient> create() async {
     final dio = Dio();
     final idToken = await getIdToken();
+    final baseUrl = env['BASE_URL'];
     dio.options.headers['Authorization'] = 'bearer $idToken';
     dio.interceptors.add(PrettyDioLogger());
-    return MessageApiClient(dio);
+    return MessageApiClient(dio, baseUrl: baseUrl);
   }
 
   @GET('/messages')

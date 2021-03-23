@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                 await signIn(context);
                 EasyLoading.dismiss();
                 Navigator.pushReplacementNamed(context, '/home');
-              } catch (_e) {
+              } catch (_) {
                 EasyLoading.showError('ログインをキャンセルしました。');
               }
             },
