@@ -6,14 +6,13 @@
 
 # 使用技術
 ### サーバーサイド
-- cmd/app ディレクトリ
+- cmd/app ディレクトリ(未デプロイ)
   - go
   - gin（webフレームワーク）
   - gorm（ORマッパー）
 - cmd/grpc-app ディレクトリ
   - go
   - gRPC（grpc-gateway）
-  - Cloud Firestore
   - [本番環境]Google App Engine
 
 ### フロントエンド
@@ -31,6 +30,8 @@
 
 ### 共通
 - 認証系：firebase Authorization
+- Database: Cloud Firestore
+- オブジェクトストレージ: Cloud Storage
 
 # アーキテクチャ
 ### サーバーサイド
