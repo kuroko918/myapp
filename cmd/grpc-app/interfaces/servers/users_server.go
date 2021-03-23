@@ -3,11 +3,13 @@ package servers
 import (
 	"context"
 	"time"
+	"github.com/golang/protobuf/ptypes"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 	"github.com/kuroko918/myapp/cmd/grpc-app/interfaces/database"
 	"github.com/kuroko918/myapp/cmd/grpc-app/usecase"
-
 	userpb "github.com/kuroko918/myapp/cmd/grpc-app/proto/user"
 )
 
@@ -27,11 +29,25 @@ func NewUsersServer(dbHandler database.DbHandler) *UsersServer {
 }
 
 func (server *UsersServer) PutUser(ctx context.Context, req *userpb.PutUserParams) (user *userpb.User, err error) {
+	currentUserId := ctx.Value("AuthenticatedUserId").(string)
+	userId := req.GetId()
+	if currentUserId != userId {
+		err = status.Errorf(codes.PermissionDenied, "You have no authorization")
+		return
+	}
+
+	createdAt, err := ptypes.Timestamp(req.GetCreatedAt())
+	if err != nil {
+		err = status.Errorf(codes.Internal, "created_at cannot be parsed to timestamp")
+		return
+	}
+
 	u := domain.User{
-		ID: req.GetId(),
+		ID: userId,
 		Name: req.GetName(),
 		Email: req.GetEmail(),
 		Avatar: req.GetAvatar(),
+		CreatedAt: createdAt,
 		UpdatedAt: time.Now(),
 	}
 	m, err := server.UserInteractor.UpdateAll(ctx, u)

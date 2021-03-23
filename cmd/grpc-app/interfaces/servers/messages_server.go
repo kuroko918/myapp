@@ -3,9 +3,10 @@ package servers
 import (
 	"context"
 	"time"
-
-	"google.golang.org/protobuf/types/known/emptypb"
 	"github.com/google/uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 	"github.com/kuroko918/myapp/cmd/grpc-app/interfaces/database"
@@ -36,19 +37,14 @@ func NewMessagesServer(dbHandler database.DbHandler) *MessagesServer {
 }
 
 func (server *MessagesServer) PostMessage(ctx context.Context, req *messagepb.PostMessageParams) (message *messagepb.Message, err error) {
-	id, _ := uuid.NewRandom()
 	userId := ctx.Value("AuthenticatedUserId").(string)
-	user, err := server.UserInteractor.User(ctx, userId)
-	if err != nil {
-		return
-	}
 
+	id, _ := uuid.NewRandom()
 	timeNow := time.Now()
 	m := domain.Message{
 		ID: id.String(),
 		Content: req.GetContent(),
 		UserId: userId,
-		User: user,
 		CreatedAt: timeNow,
 		UpdatedAt: timeNow,
 	}
@@ -57,6 +53,11 @@ func (server *MessagesServer) PostMessage(ctx context.Context, req *messagepb.Po
 		return
 	}
 
+	user, err := server.UserInteractor.User(ctx, userId)
+	if err != nil {
+		return
+	}
+	m.User = user
 	message, err = ProtoMessage(m)
 	if err != nil {
 		return
@@ -65,12 +66,23 @@ func (server *MessagesServer) PostMessage(ctx context.Context, req *messagepb.Po
 }
 
 func (server *MessagesServer) PatchMessage(ctx context.Context, req *messagepb.PatchMessageParams) (message *messagepb.Message, err error) {
+	currentUserId := ctx.Value("AuthenticatedUserId").(string)
+	messageId := req.GetId()
+	m, err := server.MessageInteractor.Message(ctx, messageId)
+	if err != nil {
+		return
+	}
+	if currentUserId != m.UserId {
+		err = status.Errorf(codes.PermissionDenied, "You have no authorization")
+		return
+	}
+
 	messageMap := map[string]interface{}{
-		"ID": req.GetId(),
+		"ID": messageId,
 		"Content": req.GetContent(),
 		"UpdatedAt": time.Now(),
 	}
-	m, err := server.MessageInteractor.Update(ctx, messageMap)
+	m, err = server.MessageInteractor.Update(ctx, messageMap)
 	if err != nil {
 		return
 	}
@@ -83,8 +95,19 @@ func (server *MessagesServer) PatchMessage(ctx context.Context, req *messagepb.P
 }
 
 func (server *MessagesServer) DeleteMessage(ctx context.Context, req *messagepb.DeleteMessageParams) (_ *emptypb.Empty, err error) {
+	currentUserId := ctx.Value("AuthenticatedUserId").(string)
+	messageId := req.GetId()
+	m, err := server.MessageInteractor.Message(ctx, messageId)
+	if err != nil {
+		return
+	}
+	if currentUserId != m.UserId {
+		err = status.Errorf(codes.PermissionDenied, "You have no authorization")
+		return
+	}
+
 	message := domain.Message{
-		ID: req.GetId(),
+		ID: messageId,
 	}
 	err = server.MessageInteractor.DeleteById(ctx, message)
 	if err != nil {
@@ -103,6 +126,12 @@ func (server *MessagesServer) GetMessages(ctx context.Context, _ *emptypb.Empty)
 	}
 
 	for _, m := range ms {
+		var user domain.User
+		user, err = server.UserInteractor.User(ctx, m.UserId)
+		if err != nil {
+			return
+		}
+		m.User = user
 		message, err = ProtoMessage(m)
 		if err != nil {
 			return

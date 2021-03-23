@@ -2,8 +2,8 @@ package servers
 
 import (
 	"github.com/golang/protobuf/ptypes"
-	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 

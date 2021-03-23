@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"cloud.google.com/go/firestore"
-
 	"github.com/kuroko918/myapp/cmd/grpc-app/domain"
 )
 
@@ -30,7 +28,7 @@ func (repo *UserRepository) Get(ctx context.Context, userId string) (user domain
 }
 
 func (repo *UserRepository) UpdateAll(ctx context.Context, u domain.User) (user domain.User, err error) {
-	_, err = repo.Doc("users/" + u.ID).Set(ctx, u, firestore.MergeAll)
+	_, err = repo.Doc("users/" + u.ID).Set(ctx, u)
 	if err != nil {
 		return
 	}

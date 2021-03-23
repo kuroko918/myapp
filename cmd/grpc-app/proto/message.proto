@@ -49,12 +49,12 @@ message MessageList {
 }
 
 message postMessageParams {
-  string content = 1 [(validate.rules).string = { max_len: 1000 }];
+  string content = 1 [(validate.rules).string = { max_len: 140 }];
 }
 
 message patchMessageParams {
   string id = 1;
-  string content = 2 [(validate.rules).string = { max_len: 1000 }];
+  string content = 2 [(validate.rules).string = { max_len: 140 }];
   string user_id = 3;
 }
 

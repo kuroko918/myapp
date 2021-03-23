@@ -20,6 +20,11 @@ func (interactor *MessageInteractor) DeleteById(ctx context.Context, m domain.Me
 	return
 }
 
+func (interactor *MessageInteractor) Message(ctx context.Context, messageId string) (message domain.Message, err error) {
+	message, err = interactor.MessageRepository.Get(ctx, messageId)
+	return
+}
+
 func (interactor *MessageInteractor) Messages(ctx context.Context) (messages []domain.Message, err error) {
 	messages, err = interactor.MessageRepository.FindAll(ctx)
 	return

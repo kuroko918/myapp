@@ -224,10 +224,10 @@ func (m *PostMessageParams) Validate() error {
 		return nil
 	}
 
-	if utf8.RuneCountInString(m.GetContent()) > 1000 {
+	if utf8.RuneCountInString(m.GetContent()) > 140 {
 		return PostMessageParamsValidationError{
 			field:  "Content",
-			reason: "value length must be at most 1000 runes",
+			reason: "value length must be at most 140 runes",
 		}
 	}
 
@@ -300,10 +300,10 @@ func (m *PatchMessageParams) Validate() error {
 
 	// no validation rules for Id
 
-	if utf8.RuneCountInString(m.GetContent()) > 1000 {
+	if utf8.RuneCountInString(m.GetContent()) > 140 {
 		return PatchMessageParamsValidationError{
 			field:  "Content",
-			reason: "value length must be at most 1000 runes",
+			reason: "value length must be at most 140 runes",
 		}
 	}
 

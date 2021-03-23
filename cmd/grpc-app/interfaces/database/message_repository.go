@@ -42,6 +42,22 @@ func (repo *MessageRepository) FindAll(ctx context.Context) (messages []domain.M
 	return
 }
 
+func (repo *MessageRepository) Get(ctx context.Context, messageId string) (message domain.Message, err error) {
+	messageSnap, err := repo.Collection("messages").Doc(messageId).Get(ctx)
+	if err != nil {
+		return
+	}
+	messageJson, err := json.Marshal(messageSnap.Data())
+	if err != nil {
+		return
+	}
+
+	if err = json.Unmarshal(messageJson, &message); err != nil {
+		return
+	}
+	return
+}
+
 func (repo *MessageRepository) Store(ctx context.Context, m domain.Message) (message domain.Message, err error) {
 	if _, err = repo.Collection("messages").Doc(m.ID).Set(ctx, m); err != nil {
 		return
