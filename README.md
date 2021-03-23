@@ -25,7 +25,7 @@
 - Flutter(flutter_hooks)
   - 状態管理: Riverpod(hooks_riverpod)
   - 状態変更通知: StateNotifier
-  - HTTP通信: Retrofit(Dio)
+  - HTTP通信: Dio(Retrofit)
   - Json解析： freezed
 
 ### 共通
