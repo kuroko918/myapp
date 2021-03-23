@@ -87,6 +87,11 @@ func (server *MessagesServer) PatchMessage(ctx context.Context, req *messagepb.P
 		return
 	}
 
+	user, err := server.UserInteractor.User(ctx, currentUserId)
+	if err != nil {
+		return
+	}
+	m.User = user
 	message, err = ProtoMessage(m)
 	if err != nil {
 		return
