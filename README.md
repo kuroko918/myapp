@@ -10,9 +10,11 @@
   - go
   - gin（webフレームワーク）
   - gorm（ORマッパー）
+  - [アーキテクチャ]Clean Architecture
 - cmd/grpc-app ディレクトリ
   - go
   - gRPC（grpc-gateway）
+  - [アーキテクチャ]Clean Architecture
   - [本番環境]Google App Engine
 
 ### フロントエンド
@@ -32,10 +34,6 @@
 - 認証系：firebase Authorization
 - Database: Cloud Firestore
 - オブジェクトストレージ: Cloud Storage
-
-# アーキテクチャ
-### サーバーサイド
-  - Clean Architecture
 
 # 環境構築
 
