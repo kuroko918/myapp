@@ -24,6 +24,7 @@ const config: NuxtConfig = {
   ],
   components: true,
   buildModules: [
+    ['@nuxtjs/date-fns', { locales: ['ja'], methods: ['format'] }],
     '@nuxtjs/dotenv',
     '@nuxt/typescript-build',
     '@nuxtjs/vuetify',
@@ -31,6 +32,7 @@ const config: NuxtConfig = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
+    'vue-scrollto/nuxt',
   ],
   axios: {},
   vuetify: {
@@ -51,6 +53,10 @@ const config: NuxtConfig = {
     }
   },
   build: {
+    filenames: {
+      app: ({ isDev }) => isDev ? '[name].[hash].js' : '[chunkhash].js',
+      chunk: ({ isDev }) => isDev ? '[name].[hash].js' : '[chunkhash].js'
+    }
   },
   router: {
     middleware: 'authenticate'

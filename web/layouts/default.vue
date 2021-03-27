@@ -2,6 +2,7 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
+      v-if="isAuthenticated()"
       :clipped="clipped"
       app
     >
@@ -22,6 +23,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
     <v-app-bar
       :clipped-left="clipped"
       app
@@ -29,11 +31,16 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-icon
+        v-if="isAuthenticated()"
+        @click="logout"
+      >
+        mdi-logout
+      </v-icon>
     </v-app-bar>
+
     <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-main>
   </v-app>
 </template>
@@ -48,26 +55,31 @@ export default Vue.extend({
       drawer: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
           icon: 'mdi-comment',
           title: 'Chat',
           to: '/chat'
-        }
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Profile',
+          to: '/profile'
+        },
       ],
       title: 'My App',
+    }
+  },
+  computed: {
+    isAuthenticated(): boolean {
+      return this.$store.getters['auth/isAuthenticated'];
+    }
+  },
+  methods: {
+    async logout () {
+      if (!confirm('ログアウトしますか？')) return
+
+      await this.$store.dispatch('auth/logout')
+      this.$router.push({ name: 'login' })
     }
   }
 })
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  text-align: center;
-}
-</style>

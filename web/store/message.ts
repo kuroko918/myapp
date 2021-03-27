@@ -1,8 +1,8 @@
 import { Store } from 'vuex'
 import { Getters, Actions, Mutations, Module } from 'vuex-smart-module'
-import { IMessage } from '../types/models/message'
+import { IMessage } from '../types/message'
 
-export class MessageState {
+class MessageState {
   message!: IMessage
 }
 
@@ -11,22 +11,22 @@ class MessagesState extends MessageState {
 }
 
 class MessageMutations extends Mutations<MessagesState> {
-  setMessages (messages: IMessage[]): void {
+  getMessages (messages: IMessage[]) {
     this.state.messages = messages
   }
 
-  addMessage (message: IMessage): void {
+  addMessage (message: IMessage) {
     this.state.messages.push(message)
   }
 
-  updateMessage (message: IMessage): void {
+  updateMessage (message: IMessage) {
     this.state.messages = this.state.messages.map((m) => {
       if (m.id === message.id) return message
       return m
     })
   }
 
-  deleteMessage (messageId: IMessage['id']): void {
+  deleteMessage (messageId: IMessage['id']) {
     this.state.messages = this.state.messages.filter(message => {
       return message.id !== messageId
     })
@@ -36,20 +36,20 @@ class MessageMutations extends Mutations<MessagesState> {
 class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutations> {
   store!: Store<any>
 
-  $init (store: Store<any>): void {
+  $init (store: Store<any>) {
     this.store = store
   }
 
-  async getMessages (): Promise<void> {
+  async getMessages () {
     try {
       const response = await this.store.$axios.$get(`${process.env.URL}/messages`)
-      this.commit('setMessages', response.messages)
+      this.commit('getMessages', response.messages)
     } catch (error) {
       alert(error)
     }
   }
 
-  async postMessage (content: IMessage['content']): Promise<void> {
+  async postMessage (content: IMessage['content']) {
     try {
       const params = {
         content
@@ -61,7 +61,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
     }
   }
 
-  async patchMessage ({ messageId, content }: { messageId: IMessage['id'], content: IMessage['content'] }): Promise<void> {
+  async patchMessage ({ messageId, content }: { messageId: IMessage['id'], content: IMessage['content'] }) {
     try {
       const params = {
         content
@@ -73,7 +73,7 @@ class MessageActions extends Actions<MessagesState, MessageGetters, MessageMutat
     }
   }
 
-  async deleteMessage (messageId: IMessage['id']): Promise<void> {
+  async deleteMessage (messageId: IMessage['id']) {
     try {
       await this.store.$axios.$delete(`${process.env.URL}/message/${messageId}`)
       this.commit('deleteMessage', messageId)

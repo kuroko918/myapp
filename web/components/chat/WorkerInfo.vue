@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <img class="workerIcon" :src="userAvatar">
-    <div>{{ user.name }}</div>
-  </div>
+  <v-list-item-avatar
+    tile
+    size="80"
+    color="grey"
+  >
+    <v-img :src="userAvatar" />
+  </v-list-item-avatar>
 </template>
 
 <script lang='ts'>
 import Vue, { PropType } from 'vue'
-import { IUser } from '../../types/models/user'
+import { IUser } from '../../types/user'
 
 export default Vue.extend({
   props: {
@@ -25,10 +28,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style>
-.workerIcon {
-  width: 25px;
-  height: 25px;
-}
-</style>

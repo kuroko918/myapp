@@ -11,7 +11,10 @@ const cookieStorage = (req: any, isDev: boolean) => ({
 
 export default ({ store, req, isDev }: Context) => {
   createPersistedState({
-    reducer: (state: any) => ({ currentUser: state.auth.currentUser }),
+    reducer: (state: any) => ({
+      authToken: state.auth.authToken,
+      currentUserId: state.auth.currentUserId,
+    }),
     storage: cookieStorage(req, isDev),
     getState: cookieStorage(req, isDev).getItem,
     setState: cookieStorage(req, isDev).setItem,

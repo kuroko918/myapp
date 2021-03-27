@@ -5,6 +5,6 @@ export default ({ store, route, redirect }: Context) => {
     redirect('/login')
   }
   if (store.getters['auth/isAuthenticated']() && route.name === 'login') {
-    redirect('/')
+    redirect('/chat')
   }
 }

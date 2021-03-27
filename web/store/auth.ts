@@ -1,49 +1,50 @@
 import { Getters, Actions, Mutations, Module } from 'vuex-smart-module'
-import { IUser } from '../types/models/user'
 import firebase from '../plugins/firebase'
 
 class AuthState {
-  currentUser: IUser | null = null;
+  authToken: string | null = null;
+  currentUserId: string | null = null;
 }
 
 class AuthMutations extends Mutations<AuthState> {
-  setCurrentUser (user: any): void {
-    if (!user) {
-      this.state.currentUser = null
+  setAuthState ({ authToken, currentUserId }: AuthState) {
+    if (!authToken || !currentUserId) {
+      this.state.authToken = null
+      this.state.currentUserId = null
       return
     }
 
     if (process.server) {
-      this.state.currentUser = user
+      this.state.authToken = authToken
+      this.state.currentUserId = currentUserId
       return
     }
 
-    this.state.currentUser = {
-      authToken: user.za,
-      id: user.uid,
-      name: user.displayName,
-      email: user.email,
-      avatar: user.photoURL,
-    }
+    this.state.authToken = authToken
+    this.state.currentUserId = currentUserId
   }
 }
 
 class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
-  async login (): Promise<void> {
-    const provider = new firebase.auth.GithubAuthProvider()
+  async login (){
     try {
+      const provider = new firebase.auth.GithubAuthProvider()
       const result = await firebase.auth().signInWithPopup(provider)
-      this.commit('setCurrentUser', result.user)
+      const user = result.user
+      if (!user) throw 'ログインに失敗しました'
+
+      const authToken = await user.getIdToken()
+      this.commit('setAuthState', { authToken, currentUserId: user.uid })
 
       const db = firebase.firestore()
-      const user = await db.collection('users').doc((result.user as any).uid).get()
-      if (user.exists) return
+      const userSnap = await db.collection('users').doc(user.uid).get()
+      if (userSnap.exists) return
 
-      db.collection('users').doc((result.user as any).uid).set({
-        id: (result.user as any).uid,
-        name: (result.user as any).displayName,
-        email: (result.user as any).email,
-        avatar: (result.user as any).photoURL,
+      db.collection('users').doc(user.uid).set({
+        id: user.uid,
+        name: user.displayName,
+        email: user.email,
+        avatar: user.photoURL,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       })
@@ -52,10 +53,10 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
     }
   }
 
-  async logout (): Promise<void> {
+  async logout () {
     try {
       await firebase.auth().signOut()
-      this.commit('setCurrentUser', null)
+      this.commit('setAuthState', { authToken: null, currentUserId: null })
     } catch (error) {
       alert(error)
     }
@@ -63,8 +64,12 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
 }
 
 class AuthGetters extends Getters<AuthState> {
+  getCurrentUserId (): AuthState['currentUserId'] {
+    return this.state.currentUserId
+  }
+
   isAuthenticated (): boolean {
-    return !!this.state.currentUser
+    return !!this.state.authToken
   }
 }
 

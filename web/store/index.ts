@@ -3,6 +3,7 @@ import Cookie from 'cookie'
 import { Context } from '@nuxt/types'
 import auth from './auth'
 import message from './message'
+import user from './user'
 
 class RootActions extends Actions {
   nuxtServerInit (context: Context): void {
@@ -10,8 +11,9 @@ class RootActions extends Actions {
 
     const cookie = Cookie.parse(context.req.headers.cookie)
     const vuex = cookie.vuex && JSON.parse(cookie.vuex)
+    const { authToken, currentUserId } = vuex
     // @ts-ignore
-    if (vuex) this.commit('auth/setCurrentUser', vuex.currentUser)
+    if (vuex) this.commit('auth/setAuthState', { authToken, currentUserId })
   }
 }
 
@@ -20,6 +22,7 @@ const root = new Module({
   modules: {
     auth,
     message,
+    user,
   }
 })
 

@@ -3,7 +3,12 @@
     class="d-flex align-center"
     @submit.prevent="onSubmit"
   >
-    <v-text-field v-model="inputValue" value="message.content" class="pa-10" rows="1" />
+    <v-text-field
+      v-model="inputValue"
+      class="pr-5"
+      label="message"
+      clearable
+    />
     <v-btn :disabled="!innerInputValue" @click="onSubmit">
       送信
     </v-btn>
@@ -12,7 +17,7 @@
 
 <script lang='ts'>
 import Vue, { PropType } from 'vue'
-import { IMessage } from '../../types/models/message'
+import { IMessage } from '../../types/message'
 
 type DataType = {
   innerInputValue: string
@@ -24,7 +29,7 @@ export default Vue.extend({
   props: {
     message: {
       type: Object as PropType<IMessage>,
-      default: () => {}
+      default: undefined,
     },
     onsubmit: {
       type: Function as PropType<PropObjType>,
@@ -37,7 +42,7 @@ export default Vue.extend({
   },
   data (): DataType {
     return {
-      innerInputValue: ''
+      innerInputValue: this.message?.content || '',
     }
   },
   computed: {
@@ -45,13 +50,13 @@ export default Vue.extend({
       get (): string {
         return this.innerInputValue
       },
-      set (value: string): void {
+      set (value: string) {
         this.innerInputValue = value
       }
     }
   },
   methods: {
-    async onSubmit (e: Event): Promise<void> {
+    async onSubmit (e: Event) {
       e.preventDefault()
 
       await this.onsubmit(this.innerInputValue)
