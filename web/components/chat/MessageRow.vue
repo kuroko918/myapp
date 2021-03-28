@@ -95,13 +95,12 @@ export default Vue.extend({
     }
   },
   computed: {
-    editedMark () {
+    editedMark (): string {
       if (this.message.createdAt === this.message.updatedAt) return ''
 
       return '（編集済）'
     },
     getCurrentUserId (): string {
-      console.log(this.$store.getters['auth/getCurrentUserId']())
       return this.$store.getters['auth/getCurrentUserId'];
     }
   },
