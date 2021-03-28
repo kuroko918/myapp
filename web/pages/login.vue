@@ -1,7 +1,6 @@
 <template>
   <v-container
     class="d-flex flex-column justify-center align-center"
-    min-height="100vh"
   >
     <v-btn
       v-if='!isAuthenticated()'
@@ -45,8 +44,8 @@ export default Vue.extend({
 })
 </script>
 
-<style>
+<style scoped>
 .container {
-  min-height: 100vh;
+  min-height: 100%;
 }
 </style>
