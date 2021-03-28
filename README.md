@@ -6,24 +6,23 @@
 
 # 使用技術
 ### サーバーサイド
-- cmd/app ディレクトリ(未デプロイ)
+- **cmd/app ディレクトリ(未デプロイ)**
   - go
   - gin（webフレームワーク）
   - gorm（ORマッパー）
   - [アーキテクチャ]Clean Architecture
-- cmd/grpc-app ディレクトリ
+- **cmd/grpc-app ディレクトリ**
   - go
   - gRPC（grpc-gateway）
   - [アーキテクチャ]Clean Architecture
   - [本番環境]Google App Engine
 
-### フロントエンド
+### フロントエンド（web ディレクトリ）
 - Nuxt.js（SSR）
 - TypeScript（Vuexの型付け：vuex-smart-module）
-- Jest
 - [本番環境]Cloud Run
 
-### ネイティブアプリ
+### ネイティブアプリ(native ディレクトリ)
 - Flutter(flutter_hooks)
   - 状態管理: Riverpod(hooks_riverpod)
   - 状態変更通知: StateNotifier
