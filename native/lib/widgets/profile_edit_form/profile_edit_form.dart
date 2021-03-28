@@ -15,7 +15,7 @@ class ProfileEditForm extends HookWidget {
   @override
   Widget build(context) {
     final _formKey = useMemoized(() => GlobalKey<FormState>());
-    final cachImage = useState(File(''));
+    final cacheImage = useState(File(''));
     final avatar = useState(user.avatar);
     final name = useState(user.name);
     final email = useState(user.email);
@@ -28,7 +28,7 @@ class ProfileEditForm extends HookWidget {
 
       String imageURL;
 
-      if (cachImage.value.path != '') imageURL = await uploadImage(cachImage.value, user.id);
+      if (cacheImage.value.path != '') imageURL = await uploadImage(cacheImage.value, user.id);
 
       await putMessage(user.id, user.copyWith(
         avatar: imageURL ?? avatar.value,
@@ -44,7 +44,7 @@ class ProfileEditForm extends HookWidget {
         final image = await showGetImageModal(context);
         if (image == null) return;
 
-        cachImage.value = image;
+        cacheImage.value = image;
       }
 
       return Stack(
@@ -54,9 +54,9 @@ class ProfileEditForm extends HookWidget {
             child: Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: cachImage.value.path != '' ?
+                child: cacheImage.value.path != '' ?
                   Image.file(
-                    cachImage.value,
+                    cacheImage.value,
                     width: 120,
                     height: 120,
                     fit: BoxFit.cover,
