@@ -99,4 +99,12 @@ $ cd native
 
 # open server
 $ flutter run
+
+# How to Release
+### Change URL ENV in .env into 'https://myapp-kuroko918.an.r.appspot.com'
+
+### Change version in pubspec.yaml
+
+### Create bundle
+$ flutter build appbundle --release
 ```
