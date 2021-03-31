@@ -45,9 +45,6 @@ class UserActions extends Actions<UserState, UserGetters, UserMutations> {
 }
 
 class UserGetters extends Getters<UserState> {
-  currentUser (): IUser {
-    return this.state.user
-  }
 }
 
 export default new Module({
