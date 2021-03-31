@@ -32,7 +32,7 @@ func run() error {
   handler := handlers.CORS(
     handlers.AllowedMethods([]string{"GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"}),
     handlers.AllowedHeaders([]string{"Access-Control-Allow-Headers", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}),
-    handlers.AllowedOrigins([]string{"http://localhost:3000", "https://nuxt-dtlmvofcca-an.a.run.app"}),
+    handlers.AllowedOrigins([]string{"*"}),
   )(mux)
 
   return http.ListenAndServe(":8080", handler)
