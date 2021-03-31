@@ -5,11 +5,11 @@ import axios from 'axios'
 
 interface IAxios {
   $axios: NuxtAxiosInstance
-  isDev: Context['isDev']
+  store: Context['store']
   redirect: Context['redirect']
 }
 
-export default ({ $axios, isDev, redirect }: IAxios) => {
+export default ({ $axios, store, redirect }: IAxios) => {
   $axios.onRequest(config => {
     const vuex = jsCookie.get('vuex')
     if (!vuex) return config
@@ -20,7 +20,7 @@ export default ({ $axios, isDev, redirect }: IAxios) => {
 
   $axios.onError(async error => {
     try {
-      if (error.response?.data.message.includes('ID token has expired')) {
+      if (error.response?.data.message.includes('ID token has expired at:')) {
         const vuex = jsCookie.get('vuex')
         if (!vuex) return
 
@@ -38,14 +38,20 @@ export default ({ $axios, isDev, redirect }: IAxios) => {
           },
         )
 
-        jsCookie.set('authToken', response.data.id_token, { expires: 365, secure: !isDev })
+        store.commit('auth/setAuthState', {
+          authToken: response.data.access_token,
+          currentUserId: response.data.user_id,
+          refreshToken,
+        })
 
         axios(error.config)
       }
     } catch {
-      jsCookie.remove('authToken')
-      jsCookie.remove('currentUserId')
-      jsCookie.remove('refreshToken')
+      store.commit('auth/setAuthState', {
+        authToken: null,
+        currentUserId: null,
+        refreshToken: null,
+      })
       redirect('/login')
     }
   })
