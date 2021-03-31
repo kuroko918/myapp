@@ -6,19 +6,13 @@
 - Android（オープンテスト）:
 
 # 使用技術
-### サーバーサイド
-- **cmd/app ディレクトリ(未デプロイ)**
-  - go
-  - gin（webフレームワーク）
-  - gorm（ORマッパー）
-  - [アーキテクチャ]Clean Architecture
-- **cmd/grpc-app ディレクトリ**
-  - go
-  - gRPC（grpc-gateway）
-  - [アーキテクチャ]Clean Architecture
-  - [本番環境]Google App Engine
+### サーバーサイド(cmd/grpc-appディレクトリ)
+- go
+- gRPC（grpc-gateway）
+- [アーキテクチャ]Clean Architecture
+- [本番環境]Google App Engine
 
-### フロントエンド（web ディレクトリ）
+### フロントエンド(web ディレクトリ)
 - Nuxt.js（SSR）
 - TypeScript（Vuexの型付け：vuex-smart-module）
 - [本番環境]Cloud Run
@@ -31,7 +25,7 @@
   - Json解析： freezed
 
 ### 共通
-- 認証系：firebase Authorization
+- 認証系: firebase Authorization
 - Database: Cloud Firestore
 - オブジェクトストレージ: Cloud Storage
 
