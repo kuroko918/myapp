@@ -1,5 +1,5 @@
 import createPersistedState from 'vuex-persistedstate'
-import * as jsCookie from 'js-cookie'
+import jsCookie from 'js-cookie'
 import cookie from 'cookie'
 import { Context } from '@nuxt/types'
 
@@ -13,6 +13,7 @@ export default ({ store, req, isDev }: Context) => {
   createPersistedState({
     reducer: (state: any) => ({
       authToken: state.auth.authToken,
+      refreshToken: state.auth.refreshToken,
       currentUserId: state.auth.currentUserId,
     }),
     storage: cookieStorage(req, isDev),

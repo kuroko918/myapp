@@ -11,9 +11,9 @@ class RootActions extends Actions {
 
     const cookie = Cookie.parse(context.req.headers.cookie)
     const vuex = cookie.vuex && JSON.parse(cookie.vuex)
-    const { authToken, currentUserId } = vuex
+    const { authToken, currentUserId, refreshToken } = vuex
     // @ts-ignore
-    if (vuex) this.commit('auth/setAuthState', { authToken, currentUserId })
+    if (vuex) this.commit('auth/setAuthState', { authToken, currentUserId, refreshToken })
   }
 }
 

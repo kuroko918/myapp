@@ -4,24 +4,28 @@ import firebase from '../plugins/firebase'
 class AuthState {
   authToken: string | null = null;
   currentUserId: string | null = null;
+  refreshToken: string | null = null;
 }
 
 class AuthMutations extends Mutations<AuthState> {
-  setAuthState ({ authToken, currentUserId }: AuthState) {
-    if (!authToken || !currentUserId) {
+  setAuthState ({ authToken, currentUserId, refreshToken }: AuthState) {
+    if (!authToken || !currentUserId || !refreshToken) {
       this.state.authToken = null
       this.state.currentUserId = null
+      this.state.refreshToken = null
       return
     }
 
     if (process.server) {
       this.state.authToken = authToken
       this.state.currentUserId = currentUserId
+      this.state.refreshToken = refreshToken
       return
     }
 
     this.state.authToken = authToken
     this.state.currentUserId = currentUserId
+    this.state.refreshToken = refreshToken
   }
 }
 
@@ -33,8 +37,10 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
       const user = result.user
       if (!user) throw 'ログインに失敗しました'
 
+      console.log('user.refreshToken', user.refreshToken)
+
       const authToken = await user.getIdToken()
-      this.commit('setAuthState', { authToken, currentUserId: user.uid })
+      this.commit('setAuthState', { authToken, currentUserId: user.uid, refreshToken: user.refreshToken })
 
       const db = firebase.firestore()
       const userSnap = await db.collection('users').doc(user.uid).get()
@@ -56,7 +62,7 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
   async logout () {
     try {
       await firebase.auth().signOut()
-      this.commit('setAuthState', { authToken: null, currentUserId: null })
+      this.commit('setAuthState', { authToken: null, currentUserId: null, refreshToken: null })
     } catch (error) {
       alert(error)
     }
