@@ -17,8 +17,6 @@ export default ({ $axios, redirect }: IAxios) => {
   })
 
   $axios.onError(async error => {
-    console.log('error', error)
-    console.log('error.response', error.response)
     try {
       if (error.response?.data.message.includes('ID token has expired')) {
         const vuex = jsCookie.get('vuex')
