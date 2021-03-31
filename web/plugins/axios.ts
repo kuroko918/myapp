@@ -1,13 +1,15 @@
 import jsCookie from 'js-cookie'
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
+import { Context } from '@nuxt/types'
 import axios from 'axios'
 
 interface IAxios {
   $axios: NuxtAxiosInstance
-  redirect: any
+  isDev: Context['isDev']
+  redirect: Context['redirect']
 }
 
-export default ({ $axios, redirect }: IAxios) => {
+export default ({ $axios, isDev, redirect }: IAxios) => {
   $axios.onRequest(config => {
     const vuex = jsCookie.get('vuex')
     if (!vuex) return config
@@ -36,7 +38,7 @@ export default ({ $axios, redirect }: IAxios) => {
           },
         )
 
-        jsCookie.set('authToken', response.data.id_token, { expires: 365 })
+        jsCookie.set('authToken', response.data.id_token, { expires: 365, secure: !isDev })
 
         axios(error.config)
       }
