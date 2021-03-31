@@ -2,16 +2,16 @@
   <div>
     <v-container>
       <MessageBody />
+      <v-footer
+        class="px-16 py-5"
+        padless
+        fixed
+      >
+        <MessageForm
+          :onsubmit="createMessage"
+        />
+      </v-footer>
     </v-container>
-    <v-footer
-      class="px-16 py-5"
-      padless
-      fixed
-    >
-      <MessageForm
-        :onsubmit="createMessage"
-      />
-    </v-footer>
   </div>
 </template>
 
@@ -58,5 +58,6 @@ export default Vue.extend({
 
 footer {
   display: unset;
+  z-index: 999;
 }
 </style>
