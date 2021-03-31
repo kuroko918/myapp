@@ -3,7 +3,7 @@ import jsCookie from 'js-cookie'
 import cookie from 'cookie'
 import { Context } from '@nuxt/types'
 
-const cookieStorage = (req: any, isDev: boolean) => ({
+const cookieStorage = (req: Context['req'], isDev: Context['isDev']) => ({
   getItem: (key: string) => process.client ? jsCookie.get(key) : cookie.parse(req.headers.cookie || '')[key],
   setItem: (key: string, value: string) => jsCookie.set(key, value, { expires: 365, secure: !isDev }),
   removeItem: (key: string) => jsCookie.remove(key),
