@@ -3,6 +3,7 @@
 - https://nuxt-dtlmvofcca-an.a.run.app
 
 ## Mobile
+- Android（オープンテスト）:
 
 # 使用技術
 ### サーバーサイド
