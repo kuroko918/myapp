@@ -37,8 +37,6 @@ class AuthActions extends Actions<AuthState, AuthGetters, AuthMutations> {
       const user = result.user
       if (!user) throw 'ログインに失敗しました'
 
-      console.log('user.refreshToken', user.refreshToken)
-
       const authToken = await user.getIdToken()
       this.commit('setAuthState', { authToken, currentUserId: user.uid, refreshToken: user.refreshToken })
 
