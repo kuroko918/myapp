@@ -6,14 +6,13 @@ import message from './message'
 import user from './user'
 
 class RootActions extends Actions {
-  nuxtServerInit (context: Context): void {
-    if (!context.req.headers.cookie) return
+  nuxtServerInit ({ req, store }: Context): void {
+    if (!req.headers.cookie) return
 
-    const cookie = Cookie.parse(context.req.headers.cookie)
+    const cookie = Cookie.parse(req.headers.cookie)
     const vuex = cookie.vuex && JSON.parse(cookie.vuex)
     const { authToken, currentUserId, refreshToken } = vuex
-    // @ts-ignore
-    if (vuex) this.commit('auth/setAuthState', { authToken, currentUserId, refreshToken })
+    if (vuex) store.commit('auth/setAuthState', { authToken, currentUserId, refreshToken })
   }
 }
 
