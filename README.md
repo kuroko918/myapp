@@ -95,7 +95,7 @@ $ cd native
 # open server
 $ flutter run
 
-# How to Release
+# How to Release(Google Play)
 ### Change URL ENV in .env into 'https://myapp-kuroko918.an.r.appspot.com'
 
 ### Change version in pubspec.yaml
