@@ -3,7 +3,7 @@
 - https://nuxt-dtlmvofcca-an.a.run.app
 
 ## Mobile
-- Android（オープンテスト）:
+- Android（オープンテスト）: https://play.google.com/store/apps/details?id=com.kuroko918.myapp
 
 # 使用技術
 ### サーバーサイド(cmd/grpc-appディレクトリ)
