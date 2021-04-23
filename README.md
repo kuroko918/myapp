@@ -1,8 +1,8 @@
 # 本番環境 URL
-## Web
+## Web（現在GAEインスタンス停止中）
 - https://nuxt-dtlmvofcca-an.a.run.app
 
-## Mobile
+## Mobile（現在GAEインスタンス停止中）
 - Android（オープンテスト）: https://play.google.com/store/apps/details?id=com.kuroko918.myapp
 
 # 使用技術
